@@ -1,0 +1,9 @@
+.navbar .navbar-nav>li>a>i{
+    line-height: 0px;
+    height: 25px;
+}
+
+.search-bar.open{
+    background-color: white;
+    height: 93px;
+}
