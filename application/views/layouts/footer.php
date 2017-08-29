@@ -47,7 +47,8 @@
             <script src= "assets/js/jquery-dropdown.js" type="text/javascript"></script>
             <script src= "assets/js/sweetalert.js" type="text/javascript"></script>
             <script src= "assets/js/sweetalert.min.js" type="text/javascript"></script>
-            <script src= "assets/js/bs.js" type="text/javascript"></script>';
+            <script src= "assets/js/bs.js" type="text/javascript"></script>
+            <script src= "assets/js/custom.js" type="text/javascript"></script>';
         }
     ?>
     

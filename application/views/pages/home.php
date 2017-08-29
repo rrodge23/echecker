@@ -24,9 +24,15 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
             </li>
+            
           </ul>
+          
         </div>
+        
       </div>
+      <li class="login-btn">
+        <a class="btn btn-xl js-scroll-trigger" href="login" style="background-color:transparent;border:1px solid white;">Login</a>
+      </li>
     </nav>
 
     <!-- Header -->
@@ -36,7 +42,7 @@
           <div class="intro-lead-in">Welcome To E - Checker</div>
           <div class="intro-heading">It's Nice To Meet You</div>
           <a class="btn btn-xl js-scroll-trigger" href="#services">Tell Me More</a>
-          <a class="btn btn-xl js-scroll-trigger" href="login">Login</a>
+          
         </div>
       </div>
     </header>

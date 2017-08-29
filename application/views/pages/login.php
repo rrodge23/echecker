@@ -9,10 +9,8 @@
 
                         <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                             
-                        <form id="loginform" class="form-horizontal" role="form">
-                          
-                                
-                            <div style="margin-bottom: 25px" class="input-group">
+                        <form id="loginform" class="form-horizontal" role="form" onsubmit="return false;" method="POST" action="post/login">
+                            <div style="margin-bottom: 25px;" class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="margin-right:10px;"></i></span>
                                 <input id="login-username" type="text" class="form-control" name="username" placeholder="Username" style="border-bottom:1px solid #9E9E9E;">
                             </div>
@@ -22,13 +20,12 @@
                             </div>
                                   
                             <div style="margin:0px" class="form-group">
-                                    
-                                    <div class="col-sm-12 controls">
-                                      <input id="btn-login" href="#" class="btn btn-primary" style="color:white;" value="Login">
-                                    </div>
+                                  
+                                <div class="col-sm-12 controls">
+                                  <input id="btn-login" type="submit" class="btn btn-primary" style="color:white;" value="Login">
                                 </div>
-                           
-
+                            </div>
+                         </form>
                      </div>                     
              </div>  
         </div>
