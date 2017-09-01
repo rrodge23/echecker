@@ -19,6 +19,8 @@ body{
 /*FILE INPUT*/
 .file-preview{
     background-color: white !important;
+    height: 70%;
+    padding-bottom: 25px;
 
 }
 .glyphicon-hand-down{
@@ -76,5 +78,11 @@ form{
     padding:0px!important;
     height: auto;
     vertical-align: middle !important;
+}
+
+.modal{
+    background-color:transparent !important;
+    box-shadow: none !important;
+    overflow-y: hidden !important;
 }
 

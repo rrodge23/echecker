@@ -46,10 +46,10 @@
                                             <td class='text-center checked'>$id</td>
                                             <td class='text-center'>$name</td>
                                             <td class='text-center'>
-                                                <button href='users/updateusers' data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='submit' name='update' onclick='return false;'>
+                                                <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                     <i class='material-icons'>create</i>
                                                 </button>
-                                                <button href='users/deleteusers' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
                                                     <i class='material-icons'>delete</i>
                                                 </button>
                                             </td>
@@ -63,8 +63,8 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
-                        <label class="control-label"><h3><b>Select File</b></h3></label>
-                        <input id="input-import-users" name="fileimportuser" type="file" multiple class="file-loading">
+                        <label class="control-label"><h3><b>Import File</b></h3></label>
+                        <input id="input-import-users" name="usersFile" type="file" multiple class="file-loading">
                     </div>
                     <div id="result">
 

@@ -62,9 +62,7 @@ $(document).ready(function(){
             "</div>"
         },
         uploadIcon:'<i class="material-icons">file_download</i>',
-        filebatchuploadsuccess:function(data){
-            console.log(data);
-        }
+        
     });
 
     //********* FILEINPUT END
@@ -90,4 +88,47 @@ $(document).ready(function(){
         });
     })
     //********* DELETE USER END
+    //********* UPDATE USER
+    $('.btn-update-user').on('click',function(){
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url:'users/getuserinfobyid',
+            dataType:"json",
+            method:"POST",
+            data:{id:id},
+            success:function(data){
+                $('#input-user-update-UID').val(data.UID)
+                $('#input-user-update-user').val(data.user)
+                $('#input-user-update-user_level').val(data.user_level);
+            }
+        });
+        
+        $('#mdl-user-update').modal('show');
+    });
+
+
+
+    $('#mdl-frm-update-user').on('submit',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        $.ajax({
+            url:url,
+            data:frm.serialize(),
+            method:method,
+            dataType:"json",
+            success:function(data){
+                if(data == true){
+                    location.reload();
+                }else{
+                    alert('error');
+                }
+            }
+        });
+    });
+
+    //********* UPDATE USER END
 });

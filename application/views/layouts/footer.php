@@ -1,4 +1,8 @@
- 
+    <?php
+        include APPPATH . "views/layouts/modals.php";
+    ?>
+    
+    
     <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
     <?php
         if(!isset($_SESSION['users'])){

@@ -18,14 +18,8 @@ class Mdl_Users extends CI_Model {
         return $query->result_array();
     }
 
-    public function insertUsers($data=false){
-        $user = $this->db->where('user',$data['user'])->get('users');
-        if($user){
-            return false;
-        }else{
-            return $this->db->insert('users',$data);
-        }
-        
+    public function insertUsers($data=false){    
+        return $this->db->insert('users',$data);
     }
 
     public function deleteUserById($id=false){
@@ -34,6 +28,20 @@ class Mdl_Users extends CI_Model {
             return $this->db->where('UID',$id)->delete('users');
         }
         return false;
+    }
+
+    public function getUserInfoById($data=false){
+        $user = $this->db->where('UID',$data)->get('users');
+        if($user){
+            return $user->row_array();
+        }
+        return false;
+    }
+
+    public function updateUser($data=false){
+        
+        $user = array('user'=>$data['user'],'user_level'=>$data['user_level']);
+        return $query = $this->db->set($user)->where('UID', $data['UID'])->update('users');
     }
 }
 

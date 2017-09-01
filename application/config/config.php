@@ -8,8 +8,10 @@ spl_autoload_register(function ($file){
         require_once APPPATH . 'models/' . $file . '.php';
     }else if(file_exists(APPPATH . 'libraries/' . $file . '.php')){
         require_once APPPATH . 'libraries/' . $file . '.php';
-    }else if(file_exists(APPPATH . 'libraries/PHPExcel/' . $file . '.php')){
-        require_once APPPATH . 'libraries/PHPExcel/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'third_party/' . $file . '.php')){
+        require_once APPPATH . 'third_party/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'third_party/PHPExcel/' . $file . '.php')){
+        require_once APPPATH . 'third_party/PHPExcel/' . $file . '.php';
     }
 });
 /*
