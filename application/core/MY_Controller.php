@@ -6,6 +6,23 @@ class MY_Controller extends CI_Controller {
 
     function __construct(){
         parent::__construct();
+        if(isset($_SESSION['users'])){
+            if($this->uri->segment(1) == 'login' || $this->uri->segment(1) == '' || $this->uri->segment(1) == 'home'){
+                redirect('dashboard','refresh');
+            }
+        }else{
+            if($this->uri->segment(1) != ''){
+                if($this->uri->segment(1) != 'login'){
+                    redirect('login','refresh');
+                }
+            }
+            if($this->uri->segment(1) != 'login'){
+                if($this->uri->segment(1) != ''){
+                    redirect('login','refresh');
+                }
+            }
+            
+        }
     }
 
 
@@ -13,12 +30,13 @@ class MY_Controller extends CI_Controller {
         if(!file_exists(APPPATH . 'views/pages/' . $pages . '.php')){
             show_404();
         }
+        $datas['data'] = $data;
         $path['currentPath'] = $this->uri->segment(1);
-       
         $this->load->view('layouts/header',$path);
-        $this->load->view('pages/'. $pages,$data);
+        $this->load->view('layouts/layout',$path);
+        $this->load->view('pages/'. $pages,$datas);
         $this->load->view('layouts/footer',$path);
 
     }
-   
+
 }

@@ -1,33 +1,68 @@
-    <div class="container">    
-        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
-            <div class="panel panel-info" >
-                    <div class="panel-heading">
-                        <div class="panel-title">E-Checker</div>
-                    </div>     
 
-                    <div style="padding-top:30px" class="panel-body" >
+ 
+    
+    <div class="growl" id="app-growl"></div>
 
-                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                            
-                        <form id="loginform" class="form-horizontal" role="form" onsubmit="return false;" method="POST" action="post/login">
-                            <div style="margin-bottom: 25px;" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="margin-right:10px;"></i></span>
-                                <input id="login-username" type="text" class="form-control" name="username" placeholder="Username" style="border-bottom:1px solid #9E9E9E;">
+    <div class="container container-mobile p-t-md">
+
+        
+<div class="text-center" style="margin-top:100px;">
+    <h4>Login</h4>
+</div>
+<div class="col-md-offset-3 col-md-6 col-xs-12" style="padding-top:30px;">
+    <div class="panel panel-default panel-profile m-b-md">
+        <div class="panel-body text-center">
+
+
+            <div id="Container" class="text-center" style="padding-top:20px;">
+                
+
+
+                <div class="container-fluid">
+                    <br /><br />
+                    <div class="container-content-middle">
+                        <form id="loginform" class="m-x-auto text-center app-login-form" role="form" method="POST" action="login/authenticateLogin" onsubmit="return false;">
+                        
+                            <div class="text-danger validation-summary-errors hidden">
+                                <ul>
+                                    <li>Invalid Credentials</li>
+                                </ul>
                             </div>
-                            <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock" style="margin-right:10px;"></i></span>
-                                <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
+                            <div class="form-group">
+                              
+                                <input type="text" placeholder="Username" class="form-control" data-val="true" data-val-required="A value is required." id="login-username" name="username">
                             </div>
-                                  
-                            <div style="margin:0px" class="form-group">
-                                  
-                                <div class="col-sm-12 controls">
-                                  <input id="btn-login" type="submit" class="btn btn-primary" style="color:white;" value="Login">
+
+                            <div class="form-group">
+                                <input type="password" placeholder="Password" class="form-control" data-val="true" data-val-required="A value is required." id="login-password" name="password">
+                            </div>
+                            <div class="row">
+
+                                <div class="m-b-lg">
+                                    <div class="col-xs-6">
+                                        
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button class="btn btn-block btn-info-outline btn-login" type="submit">Login</button>
+                                    </div>
+                                    
                                 </div>
                             </div>
                          </form>
-                     </div>                     
-             </div>  
+                    </div>
+                </div>
+            </div>
         </div>
-  </div>
-    
+    </div>
+</div>
+    </div>
+
+   
+  
+   
+   
+   
+   
+   
+   
+   

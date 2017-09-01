@@ -10,8 +10,7 @@ class Pages extends MY_Controller {
 		$this->load->view('welcome_message');
 	}
     public function view($pages='home'){
-        $data['Title'] = 'afasdf';
-        $this->_view($pages,$data);
+        $this->_view($pages,array());
     }
 
 }

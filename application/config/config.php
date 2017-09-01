@@ -1,10 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 spl_autoload_register(function ($file){ 
     if(file_exists(APPPATH . 'core/' . $file . '.php')){
         require_once APPPATH . 'core/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'models/' . $file . '.php')){
+        require_once APPPATH . 'models/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'libraries/' . $file . '.php')){
+        require_once APPPATH . 'libraries/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'libraries/PHPExcel/' . $file . '.php')){
+        require_once APPPATH . 'libraries/PHPExcel/' . $file . '.php';
     }
 });
 /*
@@ -29,7 +34,7 @@ spl_autoload_register(function ($file){
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http:/localhost/echecker/';
+$config['base_url'] = '/echecker/';
 
 /*
 |--------------------------------------------------------------------------
@@ -229,7 +234,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
