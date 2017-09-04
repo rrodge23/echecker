@@ -1,6 +1,6 @@
 
 <?php
-    $dashboard="";$examination="";$users="";$userProfile="";$notification="";
+    $dashboard="";$subjects="";$users="";$reports="";$notification="";
     switch($currentPath){
         case 'dashboard':
             $dashboard='active';
@@ -40,10 +40,10 @@
                     </a>
                 </li>
                 
-                <li class="<?=$examination?>">
+                <li class="<?=$subjects?>">
                     <a href="table.html">
                         <i class="material-icons">account_circle</i>
-                        <p>Table List</p>
+                        <p>Subjects</p>
                     </a>
                 </li>   
                
@@ -53,10 +53,10 @@
                         <p>Users</p>
                     </a>
                 </li>
-                <li class="<?=$userProfile?>">
+                <li class="<?=$reports?>">
                     <a href="users">
                         <i class="ti-user"></i>
-                        <p>User Profile</p>
+                        <p>Reports</p>
                     </a>
                 </li>
                 <li class="<?=$notification?>">
@@ -85,7 +85,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Dashboard</a>
+                    <a class="navbar-brand" href="#"><?=ucwords($currentPath);?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">

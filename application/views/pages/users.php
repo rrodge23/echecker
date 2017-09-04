@@ -35,7 +35,7 @@
                                 
                             </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="user-list-tablebody">
                         <?php
                             if($data){
                                 foreach($data as $u){

@@ -16,6 +16,7 @@
     <!--<link href= "assets/css/material.css" rel="stylesheet" type="text/css"/> -->
     <link href= "assets/css/material-icons.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/fa.css" rel="stylesheet" type="text/css"/>
+    <link href= "assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/datepicker.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/dataTables.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/sweetalert.css" rel="stylesheet" type="text/css"/>

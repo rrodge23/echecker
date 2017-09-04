@@ -23,6 +23,7 @@ class Mdl_Users extends CI_Model {
 
     public function insertUsers($data=false){
         return $this->db->insert('users',$data);
+        
     }
 
     public function deleteUserById($id=false){

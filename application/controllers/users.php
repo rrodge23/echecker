@@ -19,18 +19,37 @@ class Users extends MY_Controller {
     public function importUsers(){
         $this->load->library("Excelfile");
         $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
+        $html="";
         foreach($object->getWorksheetIterator() as $worksheet){
             $highestRow = $worksheet->getHighestRow();
             for($row=1; $row<=$highestRow; $row++){
+                $id = $worksheet->getCellByColumnAndRow(1,$row);
                 $name = $worksheet->getCellByColumnAndRow(2,$row);
                 $level = $worksheet->getCellByColumnAndRow(3,$row);
-                $userInfo = array("user"=>$name, "user_level"=>$level);
-                $this->load->model("mdl_Users");
-                $result = $this->mdl_Users->insertUsers($userInfo);
+                if($name != ""){
+                    $userInfo = array("user"=>$name, "user_level"=>$level);
+                    $this->load->model("mdl_Users");
+                    $result = $this->mdl_Users->insertUsers($userInfo);
+                    if($result){
+                        $html.="<tr>  
+                            <td class='text-center checked'>$id</td>
+                            <td class='text-center'>$name</td>
+                            <td class='text-center'>
+                                <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                    <i class='material-icons'>create</i>
+                                </button>
+                                <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                    <i class='material-icons'>delete</i>
+                                </button>
+                            </td>
+                        </tr>";
+                    }
+                }
+                
             }
         }
        
-        echo json_encode('');
+        echo json_encode($html);
     }
 
     public function deleteUser(){

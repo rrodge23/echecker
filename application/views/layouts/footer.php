@@ -46,6 +46,7 @@
     <script src= "assets/js/chartist.min.js" type="text/javascript"></script>
     <!--<script src= "assets/js/material.js" type="text/javascript"></script>-->
     <script src= "assets/js/morris.js" type="text/javascript"></script>
+    <script src= "assets/js/jquery-ui.min.js" type="text/javascript"></script>
     <script src= "assets/js/moment.js" type="text/javascript"></script>
     <script src= "assets/js/datepicker.js" type="text/javascript"></script>
     <script src= "assets/js/dataTables.js" type="text/javascript"></script>

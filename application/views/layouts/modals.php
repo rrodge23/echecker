@@ -13,10 +13,10 @@
             <input type="hidden" name="UID" id="input-user-update-UID">
             <div class="modal-body">
                 <div class="form-group">
-                    <input type="text" placeholder="username" class="form-control" data-val="true" data-val-required="A value is required." id="input-user-update-user" name="user">
+                    <input type="text" placeholder="username" class="form-control" data-val="true" data-val-required="A value is required." id="input-user-update-user" name="user" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="text" placeholder="userlevel" class="form-control" data-val="true" data-val-required="A value is required." id="input-user-update-user_level" name="user_level">
+                    <input type="text" placeholder="userlevel" class="form-control" data-val="true" data-val-required="A value is required." id="input-user-update-user_level" name="user_level" required="required">
                 </div>
             </div>
             <div class="modal-footer">

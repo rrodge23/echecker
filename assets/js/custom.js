@@ -49,7 +49,7 @@ $(document).ready(function(){
         allowedFileExtensions: ["xlsx", "xlsm", "xlsb", "xltx", "xltm", "xls"
         , "xlt", "xml" , "xlam" , "xla", "xlw", "xlr", "csv"],
         previewClass: "bg-warning",
-        showDetails:false,
+        uploadAsync:true,
         layoutTemplates: {
             main1: "{preview}\n" +
             "<div class=\'input-group {class}\'>\n" +
@@ -60,11 +60,14 @@ $(document).ready(function(){
             "   </div>\n" +
             "   {caption}\n" +
             "</div>"
-        },
-        uploadIcon:'<i class="material-icons">file_download</i>',
-        
+        }
+       
     });
-
+ 
+    $("#input-import-users").on("fileuploaded",function(event,data,previewId,index){
+        $('.user-list-tablebody').append(data.response);
+    });
+   
     //********* FILEINPUT END
     //********* DELETE USER
 
@@ -96,6 +99,7 @@ $(document).ready(function(){
                 method:"POST",
                 success:function(data){
                     if(data == true){
+                        swal("success", "Record Deleted.", "success");
                         location.reload();
                     }else{
                         swal("Cancelled", "Error Delete Record.", "error");
@@ -137,25 +141,41 @@ $(document).ready(function(){
         var id = frm.data('id');
         var method = frm.attr('method');
         var url = frm.attr('action');
-        $.ajax({
-            url:url,
-            data:frm.serialize(),
-            method:method,
-            dataType:"json",
-            success:function(data){
-                if(data == true){
-                    location.reload();
-                }else{
-                    alert('error');
-                }
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to update this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){
+                        if(data == true){
+                             swal("success", "Record Updated.", "success");
+                            location.reload();
+                        }else{
+                            swal("cancelled", "Error Delete Record.", "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Delete Canceled.", "error");
             }
         });
+        
     });
 
     //********* UPDATE USER END
-
-
-
-
 
 });
