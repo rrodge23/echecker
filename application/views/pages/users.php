@@ -43,7 +43,7 @@
                                     $name = $u['user'];
                                     echo "
                                         <tr>  
-                                            <td class='text-center checked'>$id</td>
+                                            <td class='text-center'>$id</td>
                                             <td class='text-center'>$name</td>
                                             <td class='text-center'>
                                                 <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>

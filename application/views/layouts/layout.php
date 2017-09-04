@@ -5,16 +5,16 @@
         case 'dashboard':
             $dashboard='active';
             break;
-        case 'examination':
-            $examination='active';
+        case 'subjects':
+            $subjects='active';
             break;
         case 'users':
             $users='active';
             break;
-        case 'userprofile':
-            $userProfile='active';
+        case 'reports':
+            $reports='active';
             break;
-        case 'notification':
+        case 'notifications':
             $notification='active';
             break;
         default:
@@ -41,7 +41,7 @@
                 </li>
                 
                 <li class="<?=$subjects?>">
-                    <a href="table.html">
+                    <a href="subjects">
                         <i class="material-icons">account_circle</i>
                         <p>Subjects</p>
                     </a>
@@ -54,13 +54,13 @@
                     </a>
                 </li>
                 <li class="<?=$reports?>">
-                    <a href="users">
+                    <a href="reports">
                         <i class="ti-user"></i>
                         <p>Reports</p>
                     </a>
                 </li>
                 <li class="<?=$notification?>">
-                    <a href="notifications.html">
+                    <a href="notifications">
                         <i class="ti-bell"></i>
                         <p>Notifications</p>
                     </a>

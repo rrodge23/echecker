@@ -29,6 +29,35 @@ $(document).ready(function(){
 
     //********* SIGN OUT END
     
+     /***************GREETINGS***************/
+    var thehours = new Date().getHours();
+	var themessage;
+	var morning = ('Good Morning');
+	var afternoon = ('Good Afternoon');
+	var evening = ('Good Evening');
+
+	if (thehours >= 0 && thehours < 12) {
+        $('#morning-greetings').removeClass('hidden');
+        $('#afternoon-greetings').addClass('hidden');
+        $('#evening-greetings').addClass('hidden');
+		themessage = morning;
+
+	} else if (thehours >= 12 && thehours < 18) {
+        $('#morning-greetings').addClass('hidden');
+        $('#afternoon-greetings').removeClass('hidden');
+        $('#evening-greetings').addClass('hidden');
+		themessage = afternoon;
+
+	} else if (thehours >= 18 && thehours < 24) {
+        $('#morning-greetings').addClass('hidden');
+        $('#afternoon-greetings').addClass('hidden');
+        $('#evening-greetings').removeClass('hidden');
+		themessage = evening;
+	}
+
+	$('.greeting').append(themessage);
+    /***************END GREETINGS***************/
+    
     //********* DATA TABLES
     $('#usersTableList').DataTable();
 
@@ -91,7 +120,7 @@ $(document).ready(function(){
             function(isConfirm){
             
             if (isConfirm) {
-                swal("Deleted!", "Record has been deleted.", "success");
+                
                 $.ajax({
                 url:url,
                 data:{id:id},
@@ -99,8 +128,9 @@ $(document).ready(function(){
                 method:"POST",
                 success:function(data){
                     if(data == true){
+                        btn.closest("tr").remove();
                         swal("success", "Record Deleted.", "success");
-                        location.reload();
+                        
                     }else{
                         swal("Cancelled", "Error Delete Record.", "error");
                     }
@@ -161,16 +191,18 @@ $(document).ready(function(){
                     method:method,
                     dataType:"json",
                     success:function(data){
-                        if(data == true){
-                             swal("success", "Record Updated.", "success");
-                            location.reload();
+                        if(data[0] == true){
+                            $('tbody.user-list-tablebody').html(data[1]);
+
+                            swal("success", "Record Updated.", "success");   
+                            $('#mdl-user-update').modal('hide');
                         }else{
-                            swal("cancelled", "Error Delete Record.", "error");
+                            swal("cancelled", "Error Update Record.", "error");
                         }
                     }
                 });
             } else {
-                swal("Cancelled", "Delete Canceled.", "error");
+                swal("Cancelled", "Update Canceled.", "error");
             }
         });
         
