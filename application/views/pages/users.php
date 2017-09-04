@@ -1,7 +1,7 @@
 <div class="row">
    
         <div class="col-md-12">
-             <ul class="nav nav-tabs tab-nav-right" role="tablist" style="background-color:transparent !important;">
+             <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
                 <li role="presentation" class="active" style="width:20%;">
                     <a href="#users_list" data-toggle="tab">
                         <i class="material-icons">account_circle</i>

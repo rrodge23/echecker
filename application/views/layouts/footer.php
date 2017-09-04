@@ -1,72 +1,58 @@
+     </div>
+        </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="http://www.creative-tim.com">
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                               Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.creative-tim.com/license">
+                                Licenses
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+
     <?php
         include APPPATH . "views/layouts/modals.php";
     ?>
-    
-    
+
     <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
-    <?php
-        if(!isset($_SESSION['users'])){
-            echo '
-                 <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/popper/popper.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-                
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-             
-                <script src="js/jqBootstrapValidation.js"></script>
-                <script src="js/contact_me.js"></script>
-
-            
-                
-            ';
-            if($currentPath == ''){
-                echo '<script src="js/agency.min.js"></script>';
-            }
-        }else{
-            echo '
-            <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
-            <script src= "assets/js/highchart.js" type="text/javascript"></script>
-            <script src= "assets/js/highChartTable.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.slimscroll.js" type="text/javascript"></script>
-            <script src= "assets/js/waves.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.countTo.js" type="text/javascript"></script>
-            <script src= "assets/js/raphael.min.js" type="text/javascript"></script>
-            <script src= "assets/js/morris.js" type="text/javascript"></script>
-            <script src= "assets/js/Chart.bundle.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.flot.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.flot.resize.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.flot.pie.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.flot.categories.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.flot.time.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery.sparkline.js" type="text/javascript"></script>
-            <script src= "assets/js/admin.js" type="text/javascript"></script>
-            <script src= "assets/js/demo.js" type="text/javascript"></script>
-            <script src= "assets/js/dataTables.js" type="text/javascript"></script>
-            <script src= "assets/js/dataTables-bootstrap4.js" type="text/javascript"></script>
-            <script src= "assets/js/ripples.min.js" type="text/javascript"></script>
-            <script src= "assets/js/moment.js" type="text/javascript"></script>
-            <script src= "assets/js/datepicker.js" type="text/javascript"></script>
-            <script src= "assets/js/canvas.js" type="text/javascript"></script>
-            <script src= "assets/js/jquery-dropdown.js" type="text/javascript"></script>
-            <script src= "assets/js/sweetalert.js" type="text/javascript"></script>
-            <script src= "assets/js/sweetalert.min.js" type="text/javascript"></script>
-            <script src= "assets/js/bs.js" type="text/javascript"></script>
-            <script src= "assets/js/fileinput.min.js" type="text/javascript"></script>
-       
-            ';
-        }
-    ?>
-    
-    <script src= "assets/js/jquery-ui.min.js" type="text/javascript"></script>
-    <script src= "assets/js/custom.js" type="text/javascript"></script>
-
-    
-    
-
-
-    
+    <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src= "assets/js/bootstrap-checkbox-radio.js" type="text/javascript"></script>
+    <script src= "assets/js/bootstrap-notify.js" type="text/javascript"></script>
+    <script src= "assets/js/paper-dashboard.js" type="text/javascript"></script>
+    <script src= "assets/js/demo.js" type="text/javascript"></script>
+    <script src= "assets/js/chartist.min.js" type="text/javascript"></script>
+    <!--<script src= "assets/js/material.js" type="text/javascript"></script>-->
+    <script src= "assets/js/morris.js" type="text/javascript"></script>
+    <script src= "assets/js/moment.js" type="text/javascript"></script>
+    <script src= "assets/js/datepicker.js" type="text/javascript"></script>
+    <script src= "assets/js/dataTables.js" type="text/javascript"></script>
+    <script src= "assets/js/sweetalert.min.js" type="text/javascript"></script>
+    <script src= "assets/js/bs.js" type="text/javascript"></script>
+    <script src= "assets/js/fileinput.min.js" type="text/javascript"></script>
+    <script src= "assets/js/custom.js" type="text/javascript"></script> 
 </body>
 </html>
     

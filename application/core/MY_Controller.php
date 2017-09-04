@@ -33,7 +33,9 @@ class MY_Controller extends CI_Controller {
         $datas['data'] = $data;
         $path['currentPath'] = $this->uri->segment(1);
         $this->load->view('layouts/header',$path);
-        $this->load->view('layouts/layout',$path);
+        if($this->uri->segment(1) != 'login'){
+            $this->load->view('layouts/layout',$path);
+        }
         $this->load->view('pages/'. $pages,$datas);
         $this->load->view('layouts/footer',$path);
 

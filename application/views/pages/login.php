@@ -15,9 +15,6 @@
 
 
             <div id="Container" class="text-center" style="padding-top:20px;">
-                
-
-
                 <div class="container-fluid">
                     <br /><br />
                     <div class="container-content-middle">

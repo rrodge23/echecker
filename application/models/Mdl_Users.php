@@ -8,9 +8,12 @@ class Mdl_Users extends CI_Model {
         parent::__construct();
     }
     public function validateLogin($data=array()){
-        $this->db->where('user', $data['username'])->where('pass', $data['password']);
-        $query=$this->db->get('users');
-        return $query->row_array();
+        $query = $this->db->where('user', $data['username'])->where('pass', $data['password'])->get('users');
+        
+        if($query){
+            return $query->row_array();
+        }
+        return false;
     }
 
     public function getAllUserList(){
@@ -18,7 +21,7 @@ class Mdl_Users extends CI_Model {
         return $query->result_array();
     }
 
-    public function insertUsers($data=false){    
+    public function insertUsers($data=false){
         return $this->db->insert('users',$data);
     }
 

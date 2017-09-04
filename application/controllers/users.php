@@ -30,7 +30,7 @@ class Users extends MY_Controller {
             }
         }
        
-        echo json_encode($result);
+        echo json_encode('');
     }
 
     public function deleteUser(){

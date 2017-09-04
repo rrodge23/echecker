@@ -11,7 +11,7 @@ $(document).ready(function(){
             dataType:"json",
             data:form.serialize(),
             success:function(data){
-                if(data == true){
+                if(data != false){
                     document.location.href = '/echecker/dashboard';
                 }else{
                     $('.validation-summary-errors').removeClass('hidden');
@@ -73,19 +73,41 @@ $(document).ready(function(){
         var btn = $(this);
         var id = btn.data('id');
         var url = btn.attr('href');
-        $.ajax({
-            url:url,
-            data:{id:id},
-            dataType:"json",
-            method:"POST",
-            success:function(data){
-                if(data == true){
-                    location.reload();
-                }else{
-                    
+
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            
+            if (isConfirm) {
+                swal("Deleted!", "Record has been deleted.", "success");
+                $.ajax({
+                url:url,
+                data:{id:id},
+                dataType:"json",
+                method:"POST",
+                success:function(data){
+                    if(data == true){
+                        location.reload();
+                    }else{
+                        swal("Cancelled", "Error Delete Record.", "error");
+                    }
                 }
+            });
+            } else {
+                swal("Cancelled", "Delete Canceled.", "error");
             }
         });
+        
+        
     })
     //********* DELETE USER END
     //********* UPDATE USER
@@ -131,4 +153,9 @@ $(document).ready(function(){
     });
 
     //********* UPDATE USER END
+
+
+
+
+
 });

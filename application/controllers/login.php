@@ -19,7 +19,7 @@ class Login extends MY_Controller {
         $query = $this->mdl_Users->validateLogin($_POST);
         if($query){
             $_SESSION['users'] = $query;
-            echo json_encode(true);
+            echo json_encode($query);
         }else{
             echo json_encode(false);
         }
