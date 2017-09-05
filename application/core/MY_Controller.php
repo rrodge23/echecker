@@ -26,7 +26,7 @@ class MY_Controller extends CI_Controller {
     }
 
 
-    public function _view($pages='home',$data=array()){
+    public function _view($pages='login',$data=array()){
         if(!file_exists(APPPATH . 'views/pages/' . $pages . '.php')){
             show_404();
         }
@@ -36,6 +36,18 @@ class MY_Controller extends CI_Controller {
         if($this->uri->segment(1) != 'login'){
             $this->load->view('layouts/layout',$path);
         }
+        $this->load->view('pages/'. $pages,$datas);
+        $this->load->view('layouts/footer',$path);
+
+    }
+
+    public function n_view($pages='home',$data=array()){
+        if(!file_exists(APPPATH . 'views/pages/' . $pages . '.php')){
+            show_404();
+        }
+        $datas['data'] = $data;
+        $path['currentPath'] = $this->uri->segment(1);
+        $this->load->view('layouts/header',$path);
         $this->load->view('pages/'. $pages,$datas);
         $this->load->view('layouts/footer',$path);
 

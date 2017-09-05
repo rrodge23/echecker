@@ -11,17 +11,17 @@
                             <div class="header">
                                 <div id="morning-greetings">
                                     <img src="assets/images/morning.png" style="height:150px;width:150px">
-                                    <h4 class="title">Goodmorning FRITZ !</h4>
+                                    <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=$_SESSION['users']['user_level'];?></p>
                                 </div>
                                 <div id="afternoon-greetings">
                                     <img src="assets/images/afternoon.png" style="height:150px;width:150px">
-                                    <h4 class="title">Goodafternoon FRITZ !</h4>
+                                    <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=$_SESSION['users']['user_level'];?></p>
                                 </div>
                                 <div id="evening-greetings">
                                     <img src="assets/images/evening.png" style="height:150px;width:150px">
-                                    <h4 class="title">Goodevening FRITZ !</h4>
+                                    <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=$_SESSION['users']['user_level'];?></p>
                                 </div>
                             </div>

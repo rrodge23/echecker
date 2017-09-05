@@ -22,6 +22,29 @@ $(document).ready(function(){
     });
     //********* LOGIN END
 
+    //*********** CHANGEPASSWORD
+    $('#form-changepassword').on('submit',function(){
+        
+        var form = $(this);
+        var url = form.attr('action');
+        var type = form.attr('method');
+        $.ajax({
+            url:url,
+            type:type,
+            dataType:"json",
+            data:form.serialize(),
+            success:function(data){
+                if(data != false){
+                   document.location.href = '/echecker/dashboard';
+                }else{
+                    $('.validation-summary-errors').removeClass('hidden');
+                    form.effect('bounce','slow');
+                }
+            }
+        });
+    });
+    //********* CHANGEPASSWORD END
+
     //********* SIGN OUT
     $('#btn-signout').on('click',function(){
         document.location.href = 'logout';
