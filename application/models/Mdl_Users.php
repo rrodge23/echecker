@@ -43,10 +43,20 @@ class Mdl_Users extends CI_Model {
     }
 
     public function updateUser($data=false){
-        
         $user = array('user'=>$data['user'],'user_level'=>$data['user_level']);
         return $query = $this->db->set($user)->where('UID', $data['UID'])->update('users');
     }
+
+    public function changePassword($data=array()){
+        $query = $this->db->set('pass',$data['newPassword'])->where('UID',$data['UID'])->update('users');
+        if($query){ 
+            return $data['newPassword'];
+        }else
+        {
+            return false;
+        }
+    }
+    
 }
 
 
