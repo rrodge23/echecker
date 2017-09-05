@@ -11,8 +11,13 @@ $(document).ready(function(){
             dataType:"json",
             data:form.serialize(),
             success:function(data){
+                console.log(data);
                 if(data != false){
-                    document.location.href = '/echecker/dashboard';
+                    if(data['status'] == 'active'){
+                        document.location.href = '/echecker/dashboard';
+                    }else{
+                        document.location.href = '/echecker/changepassword';
+                    }
                 }else{
                     $('.validation-summary-errors').removeClass('hidden');
                     form.effect('bounce','slow');
@@ -82,8 +87,8 @@ $(document).ready(function(){
     /***************END GREETINGS***************/
     
     //********* DATA TABLES
-    $('#usersTableList').DataTable();
-
+    $('#table-professorslist').DataTable();
+    $('#table-studentslist').DataTable();
     //********* DATA TABLES END
 
     //********* USERLIST
@@ -232,5 +237,5 @@ $(document).ready(function(){
     });
 
     //********* UPDATE USER END
-
+    
 });

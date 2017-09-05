@@ -10,6 +10,15 @@ class MY_Controller extends CI_Controller {
             if($this->uri->segment(1) == 'login' || $this->uri->segment(1) == '' || $this->uri->segment(1) == 'home'){
                 redirect('dashboard','refresh');
             }
+            if($this->uri->segment(1) != 'changepassword'){
+                if($this->uri->segment(1) != 'logout'){
+                    if($_SESSION['users']['status'] != 'active'){
+                        redirect('changepassword','refresh');
+                    }
+                }
+                
+            }
+            
         }else{
             if($this->uri->segment(1) != ''){
                 if($this->uri->segment(1) != 'login'){

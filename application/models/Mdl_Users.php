@@ -9,7 +9,6 @@ class Mdl_Users extends CI_Model {
     }
     public function validateLogin($data=array()){
         $query = $this->db->where('user', $data['username'])->where('pass', $data['password'])->get('users');
-        
         if($query){
             return $query->row_array();
         }
@@ -21,6 +20,15 @@ class Mdl_Users extends CI_Model {
         return $query->result_array();
     }
 
+    public function getAllStudentsList(){
+        $query=$this->db->get('users');
+        return $query->result_array();
+    }
+
+    public function getAllProfessorsList(){
+        $query=$this->db->get('users');
+        return $query->result_array();
+    }
     public function insertUsers($data=false){
         return $this->db->insert('users',$data);
         
@@ -48,7 +56,7 @@ class Mdl_Users extends CI_Model {
     }
 
     public function changePassword($data=array()){
-        $query = $this->db->set('pass',$data['newPassword'])->where('UID',$data['UID'])->update('users');
+        $query = $this->db->set('pass',$data['newPassword'])->set('status','active')->where('UID',$data['UID'])->update('users');
         if($query){ 
             return $data['newPassword'];
         }else

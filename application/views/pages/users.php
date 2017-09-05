@@ -3,9 +3,15 @@
         <div class="col-md-12">
              <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
                 <li role="presentation" class="active" style="width:20%;">
-                    <a href="#users_list" data-toggle="tab">
+                    <a href="#tab-professorlist" data-toggle="tab">
                         <i class="material-icons">account_circle</i>
-                        <span>User List</span>
+                        <span>Professors</span>
+                    </a>
+                </li>
+                <li role="presentation" style="width:20%;">
+                    <a href="#tab-studentlist" data-toggle="tab">
+                        <i class="material-icons">person_pin</i>
+                        <span>Students</span>
                     </a>
                 </li>
                 <li role="presentation" style="width:20%;">
@@ -18,48 +24,83 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="users_list">
-                    <table id="usersTableList" class="table table-striped">        
+                <div role="tabpanel" class="tab-pane fade in active" id="tab-professorlist">
+                    <table id="table-professorslist" class="table table-striped">        
                         <thead>
                             <tr>
-                            
-                                <?php
-                                    if($_SESSION['users']['user_level'] == 'admin'){
-                                        echo
-                                            '<td class="text-center font-roboto color-a2">ID</td>
-                                             <td class="text-center font-roboto color-a2">NAME</td>
-                                             <td class="text-center font-roboto color-a2">ACTION</td>
-                                            ';
-                                    }
-                                ?>
-                                
+                                <td class="text-center font-roboto color-a2">ID</td>
+                                <td class="text-center font-roboto color-a2">NAME</td>
+                                <td class="text-center font-roboto color-a2">ACTION</td>
                             </tr>
                     </thead>
                     <tbody class="user-list-tablebody">
                         <?php
-                            if($data){
-                                foreach($data as $u){
+                            if($data[0]){
+                                foreach($data[0] as $u){
                                     $id = $u['UID'];
                                     $name = $u['user'];
-                                    echo "
-                                        <tr>  
-                                            <td class='text-center'>$id</td>
-                                            <td class='text-center'>$name</td>
-                                            <td class='text-center'>
-                                                <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
-                                                    <i class='material-icons'>create</i>
-                                                </button>
-                                                <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
-                                                    <i class='material-icons'>delete</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ";
+                                    $user_level = $u['user_level'];
+                                    if($user_level == 'professor'){
+                                        echo "
+                                            <tr>  
+                                                <td class='text-center'>$id</td>
+                                                <td class='text-center'>$name</td>
+                                                <td class='text-center'>
+                                                    <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                        <i class='material-icons'>create</i>
+                                                    </button>
+                                                    <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                        <i class='material-icons'>delete</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ";
+                                    }
                                 }
                             }
                         ?>
                     </tbody>
                 </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab-studentlist">
+                    <div class="row">
+                        <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
+                            <thead>
+                                <tr>
+                                    <td class="text-center font-roboto color-a2">ID</td>
+                                    <td class="text-center font-roboto color-a2">NAME</td>
+                                    <td class="text-center font-roboto color-a2">ACTION</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    if($data[1]){
+                                        foreach($data[1] as $u){
+                                            $id = $u['UID'];
+                                            $name = $u['user'];
+                                            $user_level = $u['user_level'];
+                                            if($user_level == 'student'){
+                                                echo "
+                                                    <tr>  
+                                                        <td class='text-center'>$id</td>
+                                                        <td class='text-center'>$name</td>
+                                                        <td class='text-center'>
+                                                            <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                                <i class='material-icons'>create</i>
+                                                            </button>
+                                                            <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                                <i class='material-icons'>delete</i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ";
+                                            }
+                                        }
+                                    }
+                                 ?>
+                             </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
@@ -70,6 +111,11 @@
 
                     </div>
                 </div>
+               
             </div>
         </div>
+</div>
+
+<div class="row">
+  
 </div>

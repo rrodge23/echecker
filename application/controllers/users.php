@@ -12,7 +12,9 @@ class Users extends MY_Controller {
 	{
         $this->load->model('mdl_Users');
         
-        $users = $this->mdl_Users->getAllUserList();
+        $proffessors = $this->mdl_Users->getAllProfessorsList();
+        $students = $this->mdl_Users->getAllStudentsList();
+        $users = array($proffessors,$students);
 		$this->_view('users',$users);
 	}
 

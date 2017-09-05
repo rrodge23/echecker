@@ -33,9 +33,9 @@ class Logout extends MY_Controller {
         }
         $this->load->model('mdl_Users');
         $query = $this->mdl_Users->changePassword($_POST);
-        echo json_encode($query);
         if($query){
             $_SESSION['users']['pass'] = $query;
+            $_SESSION['users']['status'] = 'active';
             echo json_encode($query);
         }else{
             echo json_encode(false);
