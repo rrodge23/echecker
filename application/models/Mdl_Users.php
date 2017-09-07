@@ -21,25 +21,21 @@ class Mdl_Users extends CI_Model {
     }
 
     public function getAllStudentsList(){
-        $query=$this->db->get('users');
+        $query=$this->db->where('user_level','student')->get('users');
         return $query->result_array();
     }
 
     public function getAllProfessorsList(){
-        $query=$this->db->get('users');
+        $query=$this->db->where('user_level','professor')->get('users');
         return $query->result_array();
     }
-    public function insertUsers($data=false){
-        return $this->db->insert('users',$data);
-        
+
+    public function insertUsers($data=array()){
+         return $this->db->insert('users',$data);
     }
 
     public function deleteUserById($id=false){
-        $user = $this->db->where('UID',$id)->get('users');
-        if($user){
-            return $this->db->where('UID',$id)->delete('users');
-        }
-        return false;
+        return $this->db->where('UID',$id)->delete('users');
     }
 
     public function getUserInfoById($data=false){

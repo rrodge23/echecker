@@ -33,18 +33,21 @@
                                 <td class="text-center font-roboto color-a2">ACTION</td>
                             </tr>
                     </thead>
-                    <tbody class="user-list-tablebody">
+                    <tbody class="professor-list-tablebody">
                         <?php
                             if($data[0]){
                                 foreach($data[0] as $u){
                                     $id = $u['UID'];
-                                    $name = $u['user'];
+                                    $user = $u['user'];
+                                    $firstname = $u['firstname'];
+                                    $middlename = $u['middlename'];
+                                    $lastname = $u['lastname'];
                                     $user_level = $u['user_level'];
                                     if($user_level == 'professor'){
                                         echo "
                                             <tr>  
                                                 <td class='text-center'>$id</td>
-                                                <td class='text-center'>$name</td>
+                                                <td class='text-center'>$lastname, $firstname $middlename</td>
                                                 <td class='text-center'>
                                                     <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                         <i class='material-icons'>create</i>
@@ -69,21 +72,26 @@
                                 <tr>
                                     <td class="text-center font-roboto color-a2">ID</td>
                                     <td class="text-center font-roboto color-a2">NAME</td>
+                                    <td class="text-center font-roboto color-a2">YEAR LEVEL</td>
                                     <td class="text-center font-roboto color-a2">ACTION</td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="student-list-tablebody">
                                 <?php
                                     if($data[1]){
                                         foreach($data[1] as $u){
                                             $id = $u['UID'];
-                                            $name = $u['user'];
+                                            $firstname = $u['firstname'];
+                                            $middlename = $u['middlename'];
+                                            $lastname = $u['lastname'];
                                             $user_level = $u['user_level'];
+                                            $year_level = $u['year_level'];
                                             if($user_level == 'student'){
                                                 echo "
-                                                    <tr>  
+                                                    <tr>
                                                         <td class='text-center'>$id</td>
-                                                        <td class='text-center'>$name</td>
+                                                        <td class='text-center'>$lastname, $firstname $middlename</td>
+                                                        <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
                                                             <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                                 <i class='material-icons'>create</i>
@@ -107,11 +115,7 @@
                         <label class="control-label"><h3><b>Import File</b></h3></label>
                         <input id="input-import-users" name="usersFile" type="file" multiple class="file-loading">
                     </div>
-                    <div id="result">
-
-                    </div>
                 </div>
-               
             </div>
         </div>
 </div>

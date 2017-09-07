@@ -29,7 +29,14 @@
                                 <div id="chartHours" class="ct-chart"></div>
                                 <div class="footer">
                                     <div class="chart-legend">
-                                        
+                                       <select class="form-control">
+                                        <option value="one">One</option>
+                                        <option value="two">Two</option>
+                                        <option value="three">Three</option>
+                                        <option value="four">Four</option>
+                                        <option value="five">Five</option>
+                                       </select>
+ 
                                     </div>
                                     <hr>
                                     <div class="stats">
