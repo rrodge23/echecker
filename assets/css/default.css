@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 .navbar .navbar-nav>li>a>i{
     line-height: 0px;
     height: 25px;
@@ -10,4 +9,76 @@
     height: 93px;
 }
 
->>>>>>> 5e19f41de88ca93fb99752570d78ab5af08e87a3
+
+.ab {
+	background-color: #008B8B;
+	width: 100%;
+	color: white;	
+
+}
+
+.a {
+	background-color: #FFFAFA;
+	padding: 15px;
+	width: 340px;
+	height: 370px;
+  	border-radius: 9px;
+	 margin: 10px auto 0;
+	 border: 1px solid;	 
+}
+.b {
+	padding-left: 10px;
+}
+
+
+.container {
+	padding: 72px;
+
+	
+}
+.use {
+	
+	margin-bottom: 9px;
+	display: inline-block;
+	text-decoration: none;
+	padding-left: 12px;
+	font-size: 16px;
+	border-bottom: 2px solid #1E90FF;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+.pass {
+	margin-top: 10px;
+	margin-bottom: 2px;
+	display: inline-block;
+	text-decoration: none;
+	padding-left: 12px;
+	font-size: 16px;
+	border-bottom: 2px solid #1E90FF;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+	}
+.btn {
+	padding-right: 10px;
+	margin-top: 12px;
+	padding-top: 14px;
+	padding-bottom: 12px ;
+	background-color: #1E90FF;
+	border: 1px solid;
+	
+	color: white;
+	box-shadow: 4px 1px 1px rgba(0, 0, 0, 0.3) inset;
+}
+.btn:hover {
+	
+	opacity: 3;
+}
+.got {
+
+padding-top: 82px;
+
+}
+.footer {
+	color: white;
+	
+}
+
