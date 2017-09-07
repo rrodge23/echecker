@@ -1,6 +1,9 @@
 $(document).ready(function(){
+<<<<<<< HEAD
 
     //*********** LOGIN
+=======
+>>>>>>> 5e19f41de88ca93fb99752570d78ab5af08e87a3
     $('#loginform').on('submit',function(){
         var form = $(this);
         var url = form.attr('action');
@@ -11,6 +14,7 @@ $(document).ready(function(){
             dataType:"json",
             data:form.serialize(),
             success:function(data){
+<<<<<<< HEAD
                 console.log(data);
                 if(data != false){
                     if(data['status'] == 'active'){
@@ -242,4 +246,10 @@ $(document).ready(function(){
 
     //********* UPDATE USER END
     
+=======
+                alert(data);
+            }
+        });
+    });
+>>>>>>> 5e19f41de88ca93fb99752570d78ab5af08e87a3
 });
