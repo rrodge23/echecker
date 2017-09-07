@@ -8,6 +8,6 @@ class Home extends MY_Controller {
 	public function index()
 	{
     
-		$this->_view('home',array());
+		$this->n_view('home',array());
 	}
 }

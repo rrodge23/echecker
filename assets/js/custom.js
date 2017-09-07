@@ -11,8 +11,13 @@ $(document).ready(function(){
             dataType:"json",
             data:form.serialize(),
             success:function(data){
+                console.log(data);
                 if(data != false){
-                    document.location.href = '/echecker/dashboard';
+                    if(data['status'] == 'active'){
+                        document.location.href = '/echecker/dashboard';
+                    }else{
+                        document.location.href = '/echecker/logout/changepassword';
+                    }
                 }else{
                     $('.validation-summary-errors').removeClass('hidden');
                     form.effect('bounce','slow');
@@ -82,8 +87,8 @@ $(document).ready(function(){
     /***************END GREETINGS***************/
     
     //********* DATA TABLES
-    $('#usersTableList').DataTable();
-
+    $('#table-professorslist').DataTable();
+    $('#table-studentslist').DataTable();
     //********* DATA TABLES END
 
     //********* USERLIST
@@ -117,7 +122,15 @@ $(document).ready(function(){
     });
  
     $("#input-import-users").on("fileuploaded",function(event,data,previewId,index){
-        $('.user-list-tablebody').append(data.response);
+        if(data.response){
+            swal("Success", "Successfully Recorded.", "success");
+            location.reload();
+            
+        }else{
+            swal("Error", "Error Delete Record.", "error");
+            return false;
+        }
+
     });
    
     //********* FILEINPUT END
@@ -177,16 +190,14 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                $('#input-user-update-UID').val(data.UID)
-                $('#input-user-update-user').val(data.user)
+                $('#input-user-update-UID').val(data.UID);
+                $('#input-user-update-user').val(data.user);
                 $('#input-user-update-user_level').val(data.user_level);
             }
         });
         
         $('#mdl-user-update').modal('show');
     });
-
-
 
     $('#mdl-frm-update-user').on('submit',function(e){
         e.preventDefault();
@@ -206,7 +217,6 @@ $(document).ready(function(){
             closeOnCancel: false
             },
             function(isConfirm){
-            
             if (isConfirm) {
                 $.ajax({
                     url:url,
@@ -214,10 +224,9 @@ $(document).ready(function(){
                     method:method,
                     dataType:"json",
                     success:function(data){
-                        if(data[0] == true){
-                            $('tbody.user-list-tablebody').html(data[1]);
-
+                        if(data == true){
                             swal("success", "Record Updated.", "success");   
+                            location.reload();
                             $('#mdl-user-update').modal('hide');
                         }else{
                             swal("cancelled", "Error Update Record.", "error");
@@ -232,5 +241,5 @@ $(document).ready(function(){
     });
 
     //********* UPDATE USER END
-
+    
 });
