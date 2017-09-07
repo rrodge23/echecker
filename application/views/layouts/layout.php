@@ -28,49 +28,44 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="dashboard" class="simple-text">
-                    Creative Tim
+                    e Checker
                 </a>
             </div>
 
             <ul class="nav">
                 <li class="<?=$dashboard?>">
                     <a href="dashboard">
-                        <i class="ti-panel"></i>
+                        <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 
                 <li class="<?=$subjects?>">
                     <a href="subjects">
-                        <i class="material-icons">account_circle</i>
+                        <i class="material-icons">subject</i>
                         <p>Subjects</p>
                     </a>
                 </li>   
                
                 <li class="<?=$users?>">
                     <a href="users">
-                        <i class="material-icons">account_circle</i>
+                        <i class="material-icons">account_box</i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li class="<?=$reports?>">
                     <a href="reports">
-                        <i class="ti-user"></i>
+                        <i class="material-icons">history</i>
                         <p>Reports</p>
                     </a>
                 </li>
                 <li class="<?=$notification?>">
                     <a href="notifications">
-                        <i class="ti-bell"></i>
+                        <i class="material-icons">notifications</i>
                         <p>Notifications</p>
                     </a>
                 </li>
-				<li class="active-pro">
-                    <a href="upgrade.html">
-                        <i class="ti-export"></i>
-                        <p>Upgrade to PRO</p>
-                    </a>
-                </li>
+			
             </ul>
     	</div>
     </div>

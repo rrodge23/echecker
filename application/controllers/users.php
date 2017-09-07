@@ -11,45 +11,44 @@ class Users extends MY_Controller {
 	public function index()
 	{
         $this->load->model('mdl_Users');
-        
-        $users = $this->mdl_Users->getAllUserList();
+        $proffessors = $this->mdl_Users->getAllProfessorsList();
+        $students = $this->mdl_Users->getAllStudentsList();
+        $users = array($proffessors,$students);
 		$this->_view('users',$users);
 	}
 
     public function importUsers(){
         $this->load->library("Excelfile");
         $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
-        $html="";
+        $studentHtml="";
+        $professorHtml="";
         foreach($object->getWorksheetIterator() as $worksheet){
             $highestRow = $worksheet->getHighestRow();
             for($row=1; $row<=$highestRow; $row++){
                 $id = $worksheet->getCellByColumnAndRow(0,$row);
-                $name = $worksheet->getCellByColumnAndRow(1,$row);
-                $level = $worksheet->getCellByColumnAndRow(2,$row);
-                if($name != ""){
-                    $userInfo = array("user"=>$name, "pass"=> "", "user_level"=>$level);
+                $user = $worksheet->getCellByColumnAndRow(1,$row);
+                $pass = $worksheet->getCellByColumnAndRow(2,$row);
+                $firstname = $worksheet->getCellByColumnAndRow(3,$row);
+                $middlename = $worksheet->getCellByColumnAndRow(4,$row);
+                $lastname = $worksheet->getCellByColumnAndRow(5,$row);
+                $user_level = $worksheet->getCellByColumnAndRow(6,$row);
+                $year_level = $worksheet->getCellByColumnAndRow(7,$row);
+                if($user != "" && $firstname != ""){
+                    $userInfo = array("user"=>$user, 
+                                    "pass"=> "",
+                                    "firstname"=>$firstname,
+                                    "middlename"=>$middlename,
+                                    "lastname"=>$lastname,
+                                    "user_level"=>$user_level,
+                                    "year_level"=>$year_level,
+                                    "status"=>'inactive'
+                                    );
                     $this->load->model("mdl_Users");
                     $result = $this->mdl_Users->insertUsers($userInfo);
-                    if($result){
-                        $html.="<tr>  
-                            <td class='text-center checked'>$id</td>
-                            <td class='text-center'>$name</td>
-                            <td class='text-center'>
-                                <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
-                                    <i class='material-icons'>create</i>
-                                </button>
-                                <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
-                                    <i class='material-icons'>delete</i>
-                                </button>
-                            </td>
-                        </tr>";
-                    }
-                }
-                
+                }   
             }
         }
-       
-        echo json_encode($html);
+        echo json_encode($result);
     }
 
     public function deleteUser(){
@@ -62,30 +61,9 @@ class Users extends MY_Controller {
         $this->load->model('mdl_Users');
         $user = array('UID' => $_POST['UID'], 'user' => $_POST['user'], 'user_level' => $_POST['user_level']);
         $query = $this->mdl_Users->updateUser($user);
-        $data = $this->mdl_Users->getAllUserList();
-        $html="";
-         if($data){
-                foreach($data as $u){
-                    $id = $u['UID'];
-                    $name = $u['user'];
-                    $html .= "
-                        <tr>  
-                            <td class='text-center'>$id</td>
-                            <td class='text-center'>$name</td>
-                            <td class='text-center'>
-                                <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
-                                    <i class='material-icons'>create</i>
-                                </button>
-                                <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
-                                    <i class='material-icons'>delete</i>
-                                </button>
-                            </td>
-                        </tr>
-                    ";
-                }
-            }
-        $result = array($query,$html);
-        echo json_encode($result);
+        $students = $this->mdl_Users->getAllStudentsList();
+        $proffessors = $this->mdl_Users->getAllProfessorsList();
+        echo json_encode($query);
     }
 
     public function getUserInfoById($data=false){
