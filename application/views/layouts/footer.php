@@ -31,6 +31,7 @@
 
     <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
     <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src= "assets/plugin/tinymce/tinymce.min.js" type="text/javascript"></script>
     <script src= "assets/js/bootstrap-checkbox-radio.js" type="text/javascript"></script>
     <script src= "assets/js/bootstrap-notify.js" type="text/javascript"></script>
     <script src= "assets/js/paper-dashboard.js" type="text/javascript"></script>
