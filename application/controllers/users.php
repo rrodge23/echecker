@@ -20,35 +20,35 @@ class Users extends MY_Controller {
     public function importUsers(){
         $this->load->library("Excelfile");
         $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
-        $studentHtml="";
-        $professorHtml="";
+        $isInsertSuccess = false;
         foreach($object->getWorksheetIterator() as $worksheet){
             $highestRow = $worksheet->getHighestRow();
+            $highestColumn = $worksheet->getHighestColumn();
+            $header = array();
             for($row=1; $row<=$highestRow; $row++){
-                $id = $worksheet->getCellByColumnAndRow(0,$row);
-                $user = $worksheet->getCellByColumnAndRow(1,$row);
-                $pass = $worksheet->getCellByColumnAndRow(2,$row);
-                $firstname = $worksheet->getCellByColumnAndRow(3,$row);
-                $middlename = $worksheet->getCellByColumnAndRow(4,$row);
-                $lastname = $worksheet->getCellByColumnAndRow(5,$row);
-                $user_level = $worksheet->getCellByColumnAndRow(6,$row);
-                $year_level = $worksheet->getCellByColumnAndRow(7,$row);
-                if($user != "" && $firstname != ""){
-                    $userInfo = array("user"=>$user, 
-                                    "pass"=> "",
-                                    "firstname"=>$firstname,
-                                    "middlename"=>$middlename,
-                                    "lastname"=>$lastname,
-                                    "user_level"=>$user_level,
-                                    "year_level"=>$year_level,
-                                    "status"=>'inactive'
-                                    );
+
+                $datas = array();
+                for($col=0;$col<=$highestColumn;$col++){
+                    if($row != 1){
+                        array_push($datas, array($header[$col] => $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue()));
+                    }else{
+                        array_push($header,strtolower($worksheet->getCellByColumnAndRow($col,1)->getFormattedValue()));        
+                    }
+                }
+                
+                if($row == 2){
+                    echo json_encode($datas);
                     $this->load->model("mdl_Users");
-                    $result = $this->mdl_Users->insertUsers($userInfo);
-                }   
+                    $result = $this->mdl_Users->insertUsers($datas);
+                    if($result){
+                        $isInsertSuccess = true;
+                    }
+                }
             }
+            
         }
-        echo json_encode($result);
+       // echo json_encode($isInsertSuccess);
+       
     }
 
     public function deleteUser(){

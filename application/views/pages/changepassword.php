@@ -1,5 +1,7 @@
 
- 
+ <?php
+    print_r($_SESSION['users']);
+ ?>
     
     <div class="growl" id="app-growl"></div>
 
@@ -13,7 +15,6 @@
     <div class="panel panel-default panel-profile m-b-md">
         <div class="panel-body text-center">
 
-
             <div id="Container" class="text-center" style="padding-top:20px;">
                 <div class="container-fluid">
                     <br /><br />
@@ -25,7 +26,7 @@
                                     <li>Invalid Credentials</li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="UID" value="<?=$_SESSION['users']['UID'];?>">
+                            <input type="hidden" name="idusers" value="<?=$_SESSION['users']['idusers'];?>">
                             <div class="form-group">
                               
                                 <input type="password" placeholder="Enter Current Password" class="form-control" required="required" id="changepass-oldpassword" name="oldPassword">

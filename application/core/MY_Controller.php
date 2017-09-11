@@ -34,7 +34,6 @@ class MY_Controller extends CI_Controller {
         }
     }
 
-
     public function _view($pages='login',$data=array()){
         if(!file_exists(APPPATH . 'views/pages/' . $pages . '.php')){
             show_404();
