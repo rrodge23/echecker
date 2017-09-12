@@ -32,60 +32,63 @@ class Mdl_Users extends CI_Model {
     }
 
     public function getAllStudentsList(){
-        $query=$this->db->where('user_level','student')->get('users');
+        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
+                    ->join('student_informationtbl','student_informationtbl.id = users.idusers')
+                    ->where('users.user_level','1')
+                    ->get('users');
         return $query->result_array();
     }
 
     public function getAllProfessorsList(){
-        $query=$this->db->where('user_level','professor')->get('users');
+        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
+                    ->join('teacher_informationtbl','teacher_informationtbl.id = users.idusers')
+                    ->where('users.user_level', '2')
+                    ->get('users');
         return $query->result_array();
     }
 
     public function insertUsers($data=array()){
+        
         $isDataValid = false;
-        foreach($data as $index => $d){
-            
-            if($d[$index]['user_level'] == 1 || $d[$index]['user_level'] == 2){
-                if($d[$index]['user'] != "" && $d[$index]['pass'] != "" && $d[$index]['firstname'] != "" && $d[$index]['lastname'] != ""){
-                    if($this->db->where('user_level', $d[$index]['user_level'])->get('user_leveltbl')){
-                        $isDataValid = true;
-                        $userInfo = array('user'=>$d[$index]['user'],
-                                            'pass'=>$d[$index]['pass'],
-                                            'user_level'=>$d[$index]['user_level'],
-                                            'status'=>'inactive'
-                                        );
-                        $this->db->insert('user',$userInfo);
-                        $last_insert = $this->db->insert_id();
+        $studentDataIndex = array('firstname','middlename','lastname');
+        $teacherDataIndex = array('firstname','middlename','lastname');
+        
+        if($data['user_level'] == 1 || $data['user_level'] == 2){
+            if($data['user'] != "" && $data['pass'] != "" && $data['firstname'] != "" && $data['lastname'] != ""){
+                if($this->db->where('user_level', $data['user_level'])->get('user_leveltbl')){
+                    $isDataValid = true;
+                    $userInfo = array('user'=>$data['user'],
+                                        'pass'=>$data['pass'],
+                                        'user_level'=>$data['user_level'],
+                                        'status'=>'inactive'
+                                    );
+                    $this->db->insert('users',$userInfo);
+                    $last_insert = $this->db->insert_id();
 
-                        if($d[$index]['user_level'] == 1){
-
-                            $studentInfo = array('id'=>$last_insert,
-                                            'firstname'=>$d[$index]['firstname'],
-                                            'middlename'=>$d[$index]['middlename'],
-                                            'lastname'=>$d[$index]['lastname'],
-                                            'course'=>$d[$index]['course'],
-                                            'year_level'=>$d[$index]['year_level'],
-                                        );
-                            if(!($this->db->insert('student_informationtbl',$studentInfo))){
-                                return false;
-                            }
-                            
-                        }else{
-                            $teacherInfo = array('id'=>$last_insert,
-                                            'firstname'=>$d[$index]['firstname'],
-                                            'middlename'=>$d[$index]['middlename'],
-                                            'lastname'=>$d[$index]['lastname'],
-                                        );
-                            if(!($this->db->insert('teacher_informationtbl',$teacherInfo))){
-                                return false;
-                            }
+                    if($data['user_level'] == 1){
+                        $studentInfo['id'] = $last_insert;
+                        for($i = 0; $i< count($studentDataIndex); $i++){
+                            $studentInfo[$studentDataIndex[$i]] = $data[$studentDataIndex[$i]];
                         }
                         
+                        if(!($this->db->insert('student_informationtbl',$studentInfo))){
+                            return false;
+                        }
+                        
+                    }else{
+                        $teacherInfo['id'] = $last_insert;
+                        for($i = 0; $i < count($teacherDataIndex); $i++){
+                            $teacherInfo[$teacherDataIndex[$i]] = $data[$teacherDataIndex[$i]];
+                        }
+                        if(!($this->db->insert('teacher_informationtbl',$teacherInfo))){
+                            return false;
+                        }
                     }
+                    
                 }
             }
-            
         }
+        
          return $isDataValid;
     }
 

@@ -23,31 +23,25 @@ class Users extends MY_Controller {
         $isInsertSuccess = false;
         foreach($object->getWorksheetIterator() as $worksheet){
             $highestRow = $worksheet->getHighestRow();
-            $highestColumn = $worksheet->getHighestColumn();
-            $header = array();
-            for($row=1; $row<=$highestRow; $row++){
-
-                $datas = array();
-                for($col=0;$col<=$highestColumn;$col++){
-                    if($row != 1){
-                        array_push($datas, array($header[$col] => $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue()));
-                    }else{
-                        array_push($header,strtolower($worksheet->getCellByColumnAndRow($col,1)->getFormattedValue()));        
-                    }
+            $highestColumnLetter = $worksheet->getHighestDataColumn();
+            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
+            $header = array('user','pass','user_level','status','firstname','middlename','lastname');
+            for($row=2; $row<=$highestRow; $row++){
+                $colDatas = array();
+                for($col=0;$col<$highestColumn-2;$col++){ 
+                    $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
                 }
+               
+                $this->load->model("mdl_Users");
+                $result = $this->mdl_Users->insertUsers($colDatas);
+                if($result){
+                    $isInsertSuccess = true;    
+                }                    
                 
-                if($row == 2){
-                    echo json_encode($datas);
-                    $this->load->model("mdl_Users");
-                    $result = $this->mdl_Users->insertUsers($datas);
-                    if($result){
-                        $isInsertSuccess = true;
-                    }
-                }
             }
-            
+            break;
         }
-       // echo json_encode($isInsertSuccess);
+       echo json_encode($isInsertSuccess);
        
     }
 

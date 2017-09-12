@@ -125,8 +125,6 @@ $(document).ready(function(){
  
     $("#input-import-users").on("fileuploaded",function(event,data,previewId,index){
         if(data.response){
-            console.log(data.response);
-            return false;
             swal("Success", "Successfully Recorded.", "success");
             location.reload();
             
