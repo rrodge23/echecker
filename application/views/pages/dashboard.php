@@ -1,4 +1,14 @@
-
+<?php
+    if($_SESSION['users']['user_level'] == "99"){
+        $displayUserLevel = "admin";
+    }else if($_SESSION['users']['user_level'] == "1"){
+        $displayUserLevel = "Student";
+    } else if($_SESSION['users']['user_level'] == "2"){
+        $displayUserLevel = "teacher";
+    }else{
+        $displayUserLevel = "unknown";
+    }
+?>
 
 
                 <div class="row">
@@ -12,17 +22,17 @@
                                 <div id="morning-greetings">
                                     <img src="assets/images/morning.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                    <p class="category"><?=$_SESSION['users']['user_level'];?></p>
+                                    <p class="category"><?=ucwords($displayUserLevel);?></p>
                                 </div>
                                 <div id="afternoon-greetings">
                                     <img src="assets/images/afternoon.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                    <p class="category"><?=$_SESSION['users']['user_level'];?></p>
+                                    <p class="category"><?=ucwords($displayUserLevel);?></p>
                                 </div>
                                 <div id="evening-greetings">
                                     <img src="assets/images/evening.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                    <p class="category"><?=$_SESSION['users']['user_level'];?></p>
+                                    <p class="category"><?=ucwords($displayUserLevel);?></p>
                                 </div>
                             </div>
                             <div class="content">

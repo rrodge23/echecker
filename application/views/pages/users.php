@@ -1,5 +1,7 @@
 <div class="row">
-   
+    <pre>
+       
+    </pre>
         <div class="col-md-12">
              <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
                 <li role="presentation" class="active" style="width:20%;">
@@ -37,13 +39,14 @@
                         <?php
                             if($data[0]){
                                 foreach($data[0] as $u){
-                                    $id = $u['UID'];
+                                   
+                                    $id = $u['idusers'];
                                     $user = $u['user'];
                                     $firstname = $u['firstname'];
                                     $middlename = $u['middlename'];
                                     $lastname = $u['lastname'];
                                     $user_level = $u['user_level'];
-                                    if($user_level == 'professor'){
+                                    if($user_level == '2'){
                                         echo "
                                             <tr>  
                                                 <td class='text-center'>$id</td>
@@ -80,13 +83,13 @@
                                 <?php
                                     if($data[1]){
                                         foreach($data[1] as $u){
-                                            $id = $u['UID'];
+                                            $id = $u['idusers'];
                                             $firstname = $u['firstname'];
                                             $middlename = $u['middlename'];
                                             $lastname = $u['lastname'];
                                             $user_level = $u['user_level'];
                                             $year_level = $u['year_level'];
-                                            if($user_level == 'student'){
+                                            if($user_level == '1'){
                                                 echo "
                                                     <tr>
                                                         <td class='text-center'>$id</td>

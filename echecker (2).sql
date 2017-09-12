@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2017 at 07:26 PM
+-- Generation Time: Sep 11, 2017 at 08:45 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -30,10 +30,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin_informationtbl` (
   `idadmin` int(11) NOT NULL,
-  `firstname` varchar(225) NOT NULL,
-  `middlename` varchar(225) NOT NULL,
-  `lastname` varchar(225) NOT NULL
+  `id` int(11) NOT NULL,
+  `firstname` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin_informationtbl`
+--
+
+INSERT INTO `admin_informationtbl` (`idadmin`, `id`, `firstname`) VALUES
+(1, 1, 'fritz');
 
 -- --------------------------------------------------------
 
@@ -47,6 +53,13 @@ CREATE TABLE `classtbl` (
   `class_description` varchar(225) NOT NULL,
   `room_name` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classtbl`
+--
+
+INSERT INTO `classtbl` (`idclass`, `class_name`, `class_description`, `room_name`) VALUES
+(1, 'class 101', 'afternoon english class', '311');
 
 -- --------------------------------------------------------
 
@@ -72,6 +85,13 @@ CREATE TABLE `coursetbl` (
   `course_description` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `coursetbl`
+--
+
+INSERT INTO `coursetbl` (`idcourse`, `course_name`, `course_description`) VALUES
+(1, 'bsit', 'bachelor of science in information of technology');
+
 -- --------------------------------------------------------
 
 --
@@ -83,6 +103,13 @@ CREATE TABLE `departmenttbl` (
   `department_name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `departmenttbl`
+--
+
+INSERT INTO `departmenttbl` (`iddepartment`, `department_name`, `description`) VALUES
+(1, 'IT dept', 'AITES');
 
 -- --------------------------------------------------------
 
@@ -120,9 +147,10 @@ CREATE TABLE `questionaire_scheduletbl` (
 
 CREATE TABLE `student_informationtbl` (
   `idstudent` int(11) NOT NULL,
-  `student_firstname` varchar(225) NOT NULL,
-  `student_middlename` varchar(225) NOT NULL,
-  `student_lastname` varchar(225) NOT NULL,
+  `id` int(11) NOT NULL,
+  `firstname` varchar(225) NOT NULL,
+  `middlename` varchar(225) NOT NULL,
+  `lastname` varchar(225) NOT NULL,
   `subjects_enrolled` int(11) NOT NULL,
   `course` varchar(225) NOT NULL,
   `year_level` int(11) NOT NULL,
@@ -141,6 +169,13 @@ CREATE TABLE `subjecttbl` (
   `subject_description` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `subjecttbl`
+--
+
+INSERT INTO `subjecttbl` (`idsubject`, `subject_code`, `subject_description`) VALUES
+(1, 'prog1', 'programming 1');
+
 -- --------------------------------------------------------
 
 --
@@ -149,9 +184,10 @@ CREATE TABLE `subjecttbl` (
 
 CREATE TABLE `teacher_informationtbl` (
   `idteacher` int(11) NOT NULL,
-  `teacher_firstname` varchar(225) NOT NULL,
-  `teacher_middlename` varchar(225) NOT NULL,
-  `teacher_lastname` varchar(225) NOT NULL,
+  `id` int(11) NOT NULL,
+  `firstname` varchar(225) NOT NULL,
+  `middlename` varchar(225) NOT NULL,
+  `lastname` varchar(225) NOT NULL,
   `subjects_handled` int(11) NOT NULL,
   `position` varchar(225) NOT NULL,
   `email` varchar(225) DEFAULT NULL,
@@ -166,7 +202,6 @@ CREATE TABLE `teacher_informationtbl` (
 --
 
 CREATE TABLE `users` (
-  `UID` int(11) NOT NULL,
   `idusers` int(11) NOT NULL,
   `user` varchar(255) NOT NULL,
   `pass` varchar(255) DEFAULT NULL,
@@ -175,6 +210,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`idusers`, `user`, `pass`, `user_level`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'asdf', 99, 'active', '2017-09-10 03:41:45', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -251,7 +293,8 @@ CREATE TABLE `user_subjecttbl` (
 -- Indexes for table `admin_informationtbl`
 --
 ALTER TABLE `admin_informationtbl`
-  ADD PRIMARY KEY (`idadmin`);
+  ADD PRIMARY KEY (`idadmin`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `classtbl`
@@ -296,7 +339,8 @@ ALTER TABLE `questionaire_scheduletbl`
 -- Indexes for table `student_informationtbl`
 --
 ALTER TABLE `student_informationtbl`
-  ADD PRIMARY KEY (`idstudent`);
+  ADD PRIMARY KEY (`idstudent`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `subjecttbl`
@@ -308,14 +352,14 @@ ALTER TABLE `subjecttbl`
 -- Indexes for table `teacher_informationtbl`
 --
 ALTER TABLE `teacher_informationtbl`
-  ADD PRIMARY KEY (`idteacher`);
+  ADD PRIMARY KEY (`idteacher`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`UID`),
-  ADD UNIQUE KEY `idusers` (`idusers`),
+  ADD PRIMARY KEY (`idusers`),
   ADD KEY `user_level` (`user_level`);
 
 --
@@ -365,7 +409,7 @@ ALTER TABLE `user_subjecttbl`
 -- AUTO_INCREMENT for table `classtbl`
 --
 ALTER TABLE `classtbl`
-  MODIFY `idclass` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idclass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `class_subjecttbl`
 --
@@ -375,12 +419,12 @@ ALTER TABLE `class_subjecttbl`
 -- AUTO_INCREMENT for table `coursetbl`
 --
 ALTER TABLE `coursetbl`
-  MODIFY `idcourse` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcourse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `departmenttbl`
 --
 ALTER TABLE `departmenttbl`
-  MODIFY `iddepartment` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iddepartment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `questionairetbl`
 --
@@ -400,17 +444,12 @@ ALTER TABLE `student_informationtbl`
 -- AUTO_INCREMENT for table `subjecttbl`
 --
 ALTER TABLE `subjecttbl`
-  MODIFY `idsubject` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idsubject` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `teacher_informationtbl`
 --
 ALTER TABLE `teacher_informationtbl`
   MODIFY `idteacher` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user_classtbl`
 --
@@ -444,7 +483,7 @@ ALTER TABLE `user_subjecttbl`
 -- Constraints for table `admin_informationtbl`
 --
 ALTER TABLE `admin_informationtbl`
-  ADD CONSTRAINT `admin_informationtbl_ibfk_1` FOREIGN KEY (`idadmin`) REFERENCES `users` (`UID`);
+  ADD CONSTRAINT `admin_informationtbl_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`idusers`);
 
 --
 -- Constraints for table `class_subjecttbl`
@@ -457,13 +496,13 @@ ALTER TABLE `class_subjecttbl`
 -- Constraints for table `student_informationtbl`
 --
 ALTER TABLE `student_informationtbl`
-  ADD CONSTRAINT `student_informationtbl_ibfk_1` FOREIGN KEY (`idstudent`) REFERENCES `users` (`UID`);
+  ADD CONSTRAINT `student_informationtbl_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`idusers`);
 
 --
 -- Constraints for table `teacher_informationtbl`
 --
 ALTER TABLE `teacher_informationtbl`
-  ADD CONSTRAINT `teacher_informationtbl_ibfk_1` FOREIGN KEY (`idteacher`) REFERENCES `users` (`UID`);
+  ADD CONSTRAINT `teacher_informationtbl_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`idusers`);
 
 --
 -- Constraints for table `users`
