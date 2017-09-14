@@ -26,16 +26,15 @@
 
                                 </ul>
                             </div>
-                            <div class="form-group main">
-                                
-                                <input type="text" placeholder="Username" class="form-control use" required="required" id="login-username" name="username">
-                                
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="material-icons" style="width:25px;">person_circle</i></span>
+                                <input type="text" class="form-control use" placeholder="Username" aria-describedby="basic-addon1" required="required" id="login-username" name="username">
                             </div>
-                            
-                            <div class="form-group">
-
-                                <input type="password" placeholder="Password" class="form-control pass" required="required" id="login-password" name="password">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><i class="material-icons" style="width:25px;">lock</i></span>
+                                <input type="password" class="form-control use"  aria-describedby="basic-addon1" placeholder="Password" class="form-control pass" required="required" id="login-password" name="password">
                             </div>
+                           
                             <div class="row">
 
                                 <div class="m-b-lg">
@@ -47,9 +46,7 @@
                                     </div>
                                     
                                     <div class="text-center pad-top-20 got" style="padding-bottom:1px;">
-                                            <br>
-                                                <a href="#">Forgot Password?</a>
-                                            </br>
+                                           
                                     </div>
                                 </div>
                             </div>

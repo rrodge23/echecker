@@ -53,10 +53,7 @@ class Users extends MY_Controller {
 
     public function updateUser(){
         $this->load->model('mdl_Users');
-        $user = array('UID' => $_POST['UID'], 'user' => $_POST['user'], 'user_level' => $_POST['user_level']);
-        $query = $this->mdl_Users->updateUser($user);
-        $students = $this->mdl_Users->getAllStudentsList();
-        $proffessors = $this->mdl_Users->getAllProfessorsList();
+        $query = $this->mdl_Users->updateUser($_POST);
         echo json_encode($query);
     }
 
