@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     //*********** LOGIN
 
-    $('#loginform').on('submit',function(){
+    $(document).on('submit','#loginform',function(){
         var form = $(this);
         var url = form.attr('action');
         var type = form.attr('method');
@@ -29,7 +29,7 @@ $(document).ready(function(){
     //********* LOGIN END
 
     //*********** CHANGEPASSWORD
-    $('#form-changepassword').on('submit',function(){
+    $(document).on('submit','#form-changepassword',function(){
         
         var form = $(this);
         var url = form.attr('action');
@@ -123,7 +123,7 @@ $(document).ready(function(){
        
     });
  
-    $("#input-import-users").on("fileuploaded",function(event,data,previewId,index){
+    $(document).on("fileuploaded","#input-import-users",function(event,data,previewId,index){
         if(data.response){
             swal("Success", "Successfully Recorded.", "success");
             location.reload();
@@ -138,7 +138,7 @@ $(document).ready(function(){
     //********* FILEINPUT END
     //********* DELETE USER
 
-    $('.btn-delete-user').on('click',function(e){
+    $(document).on('click','.btn-delete-user',function(e){
         e.preventDefault();
         var btn = $(this);
         var id = btn.data('id');
@@ -183,7 +183,8 @@ $(document).ready(function(){
     })
     //********* DELETE USER END
     //********* UPDATE USER
-    $('.btn-update-user').on('click',function(){
+    $(document).on('click','.btn-update-user',function(e){
+        e.preventDefault();
         var btn = $(this);
         var id = btn.data('id');
         $.ajax({
@@ -192,16 +193,48 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                $('#input-user-update-UID').val(data.UID);
-                $('#input-user-update-user').val(data.user);
-                $('#input-user-update-user_level').val(data.user_level);
+                console.log(data);
+                $('#mdl-title').html('Update User');
+                if(data["user_level"] == 1){
+                    var inputList = ["firstname","middlename","lastname","course","year_level"];
+                }else if(data["user_level"] == 2){
+                    var inputList = ["firstname","middlename","lastname","position"];
+                }
+                var htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">'
+                              +'<input type="hidden" value="'+data['idusers']+'" name="idusers">';
+                inputList.forEach(function(inputs){
+                    htmlbody += '<div class="input-group">'
+                               +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+inputs+'</div></span>'
+                               +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[inputs]+'" aria-describedby="basic-addon1" required="required">'
+                               +'</div>'
+                });
+                /*
+                htmlbody += ''
+                            +<div class="form-group">
+                                <label for="exampleFormControlSelect1">Example select</label>
+                                <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                </select>
+                            </div>
+                        ;
+                */
+                $('.modal-body').html(htmlbody);
+                
+                var footer = '<button type="submit" form="mdl-frm-update-user" class="btn btn-primary btn-post-user-update">Save changes</button>'
+                            +'<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+                $('.modal-footer').html(footer);
             }
         });
-        
-        $('#mdl-user-update').modal('show');
+    
+        $('#modal-dynamic').modal('show');
     });
 
-    $('#mdl-frm-update-user').on('submit',function(e){
+    
+    $(document).on('submit','#mdl-frm-update-user',function(e){
         e.preventDefault();
         var frm = $(this);
         var id = frm.data('id');

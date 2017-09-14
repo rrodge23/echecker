@@ -27,7 +27,8 @@ class Mdl_Users extends CI_Model {
     }       
 
     public function getAllUserList(){
-        $query=$this->db->get('users');
+        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
+                    ->get('users');
         return $query->result_array();
     }
 
@@ -93,20 +94,71 @@ class Mdl_Users extends CI_Model {
     }
 
     public function deleteUserById($id=false){
-        return $this->db->where('UID',$id)->delete('users');
+        $getQuery = $this->db->where('idusers',$id)->get('users');
+        $userInfo = $getQuery->row_array();
+        if($userInfo['user_level'] == 1){
+            $deleteQuery = $this->db->where('id',$id)->delete('student_informationtbl');
+        }
+        if($userInfo['user_level'] == 2){
+            $deleteQuery = $this->db->where('id',$id)->delete('teacher_informationtbl');
+        }
+        if($deleteQuery){
+            return true;
+        }
+        return false;
     }
 
     public function getUserInfoById($data=false){
-        $user = $this->db->where('UID',$data)->get('users');
-        if($user){
-            return $user->row_array();
+        $getQuery = $this->db->where('idusers',$data)->get('users');
+        $userInfo = $getQuery->row_array();
+        if($userInfo['user_level'] == 1){
+            if(!$userQuery = $this->db->where('id',$userInfo['idusers'])->get('student_informationtbl')){
+                return false;
+            }
+        }else if($userInfo['user_level'] == 2){
+            if(!$userQuery = $this->db->where('id',$userInfo['idusers'])->get('teacher_informationtbl')){
+                return false;
+            }
+        }else{
+            return false;
+        }
+        $getDataItems = $userInfo;
+        $userInformationQuery = $userQuery->row_array();
+        foreach($userInformationQuery as $k => $v){
+            $getDataItems[$k] = $v;
+        }
+        if($getDataItems){
+            return $getDataItems;
         }
         return false;
     }
 
     public function updateUser($data=false){
-        $user = array('user'=>$data['user'],'user_level'=>$data['user_level']);
-        return $query = $this->db->set($user)->where('UID', $data['UID'])->update('users');
+        if($getQuery = $this->db->where('idusers',$data['idusers'])->get('users')){            
+            $userData = $getQuery->row_array();
+            if($userData['user_level'] == 1){
+                $setStudentInformation = array('firstname'=>$data['firstname'],
+                                    'middlename' => $data['middlename'],
+                                    'lastname' => $data['lastname'],
+                                    'course' => $data['course'],
+                                    'year_level' => $data['year_level'],
+                            );
+                $isUpdated = $this->db->set($setStudentInformation)->where('id',$data['idusers'])->update('student_informationtbl');
+            }else if($userData['user_level'] == 2){
+                $setTeacherInformation = array('firstname'=>$data['firstname'],
+                                    'middlename' => $data['middlename'],
+                                    'lastname' => $data['lastname'],
+                                    'position' => $data['position']
+                            );
+                $isUpdated = $this->db->set($setTeacherInformation)->where('id',$data['idusers'])->update('teacher_informationtbl');
+            }
+            if($isUpdated){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 
     public function changePassword($data=array()){

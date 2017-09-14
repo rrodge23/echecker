@@ -1,6 +1,7 @@
 <div class="row">
     <pre>
-       
+       teacher - firstname, middlename, lastname, position
+       student - firstname, middlename, lastname, course, year level
     </pre>
         <div class="col-md-12">
              <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
@@ -32,6 +33,8 @@
                             <tr>
                                 <td class="text-center font-roboto color-a2">ID</td>
                                 <td class="text-center font-roboto color-a2">NAME</td>
+                                <td class="text-center font-roboto color-a2">POSITION</td>
+                                <td class="text-center font-roboto color-a2">DEPARTMENT</td>
                                 <td class="text-center font-roboto color-a2">ACTION</td>
                             </tr>
                     </thead>
@@ -39,18 +42,22 @@
                         <?php
                             if($data[0]){
                                 foreach($data[0] as $u){
-                                   
+                                    
                                     $id = $u['idusers'];
                                     $user = $u['user'];
                                     $firstname = $u['firstname'];
                                     $middlename = $u['middlename'];
                                     $lastname = $u['lastname'];
+                                    $position = $u['position'];
+                                    $department = $u['department'];
                                     $user_level = $u['user_level'];
                                     if($user_level == '2'){
                                         echo "
                                             <tr>  
                                                 <td class='text-center'>$id</td>
                                                 <td class='text-center'>$lastname, $firstname $middlename</td>
+                                                <td class='text-center'>$position</td>
+                                                <td class='text-center'>$department</td>
                                                 <td class='text-center'>
                                                     <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                         <i class='material-icons'>create</i>
@@ -75,6 +82,8 @@
                                 <tr>
                                     <td class="text-center font-roboto color-a2">ID</td>
                                     <td class="text-center font-roboto color-a2">NAME</td>
+                                    <td class="text-center font-roboto color-a2">DEPARTMENT</td>
+                                    <td class="text-center font-roboto color-a2">COURSE</td>
                                     <td class="text-center font-roboto color-a2">YEAR LEVEL</td>
                                     <td class="text-center font-roboto color-a2">ACTION</td>
                                 </tr>
@@ -87,6 +96,8 @@
                                             $firstname = $u['firstname'];
                                             $middlename = $u['middlename'];
                                             $lastname = $u['lastname'];
+                                            //$department = $u['department_name'];
+                                            $course = $u['course'];
                                             $user_level = $u['user_level'];
                                             $year_level = $u['year_level'];
                                             if($user_level == '1'){
@@ -94,6 +105,8 @@
                                                     <tr>
                                                         <td class='text-center'>$id</td>
                                                         <td class='text-center'>$lastname, $firstname $middlename</td>
+                                                        <td class='text-center'>RESERVE FOR DEPT</td>
+                                                        <td class='text-center'>$course</td>
                                                         <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
                                                             <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
