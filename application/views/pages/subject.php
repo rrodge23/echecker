@@ -21,7 +21,6 @@
                 $code = $subj['code'];
                 $description = $subj['description'];
                 $units = $subj['units']
-                
                 ;
             
             echo "
@@ -35,7 +34,7 @@
                         <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-subject btn btn-info' type='button' name='update' onclick='return false;'>
                             <i class='material-icons'>update</i>
                         </button>
-                        <button href='subjects/deleteSubject' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-subject btn btn-danger' type='submit' name='deleteSubject' onclick='return false;'>
+                        <button href='subjects/deletesubject' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-subject btn btn-danger' type='submit' name='deleteSubject' onclick='return false;'>
                             <i class='material-icons'>delete</i>
                         </button>
                     

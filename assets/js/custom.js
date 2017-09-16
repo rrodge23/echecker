@@ -142,6 +142,95 @@ $(document).ready(function(){
     });
    
     //********* FILEINPUT END
+
+    //********* ADD USERS \
+    $(document).on('click','.btn-add-teacher',function(e){
+        e.preventDefault();
+        $('#mdl-title').html('Add User');
+        var inputList = ["user","pass","firstname","middlename","lastname","position"];
+        var htmlbody = '<form action="users/addteacher" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-teacher">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-teacher" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    $(document).on('click','.btn-add-student',function(e){
+        e.preventDefault();
+        $('#mdl-title').html('Add User');
+        var inputList = ["user","pass","firstname","middlename","lastname","course","year_level"];
+        var htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-student" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+    
+    //********* ADD USERS END
+    //********* POST ADD USERS
+    $(document).on('submit','.mdl-frm-add-users',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Save this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){ 
+                        if(data == true){
+                            swal("success", "Record Added.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", "Error In Adding Users", "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Add Canceled.", "error");
+            }
+        });
+        
+    });
+    //********* POST ADD USERS END
+
     //********* DELETE USER
 
     $(document).on('click','.btn-delete-user',function(e){

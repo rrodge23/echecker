@@ -45,9 +45,22 @@ class Users extends MY_Controller {
        
     }
 
+    
     public function deleteUser(){
         $this->load->model('mdl_Users');
         $result = $this->mdl_Users->deleteUserById($_POST['id']);
+        echo json_encode($result);
+    }
+    public function addTeacher(){
+        $this->load->model('mdl_Users');
+        $_POST['user_level'] = "2";
+        $result = $this->mdl_Users->insertUsers($_POST);
+        echo json_encode($result);
+    }
+    public function addStudent(){
+        $this->load->model('mdl_Users');
+        $_POST['user_level'] = "1";
+        $result = $this->mdl_Users->insertUsers($_POST);
         echo json_encode($result);
     }
 
