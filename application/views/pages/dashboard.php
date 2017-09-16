@@ -10,12 +10,6 @@
     }
 ?>
 
-
-                <div class="row">
-                    
-                </div>
-                <div class="row">
-
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -36,72 +30,26 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                       <select class="form-control">
-                                        <option value="one">One</option>
-                                        <option value="two">Two</option>
-                                        <option value="three">Three</option>
-                                        <option value="four">Four</option>
-                                        <option value="five">Five</option>
-                                       </select>
- 
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Email Statistics</h4>
-                                <p class="category">Last Campaign Performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Bounce
-                                        <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> Campaign sent 2 days ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2015 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
-
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-check"></i> Data information certified
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div id="tb-testimonial" class="testimonial testimonial-default-filled">
+                                            <div class="testimonial-section">
+                                                Denim you probably haven't heard of. Lorem ipsum dolor met consectetur adipisicing sit amet, consectetur adipisicing elit, of them jean shorts sed magna aliqua. Lorem ipsum dolor met.
+                                            </div>
+                                            <div class="testimonial-desc">
+                                                <img src="https://placeholdit.imgix.net/~text?txtsize=9&txt=100%C3%97100&w=100&h=100" alt="" />
+                                                <div class="testimonial-writer">
+                                                    <div class="testimonial-writer-name">Zahed Kamal</div>
+                                                    <div class="testimonial-writer-designation">Front End Developer</div>
+                                                    <a href="#" class="testimonial-writer-company">Touch Base Inc</a>
+                                                </div>
+                                            </div>
+                                        </div>   
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+              
            

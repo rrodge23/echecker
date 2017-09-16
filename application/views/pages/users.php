@@ -1,8 +1,5 @@
 <div class="row">
-    <pre>
-       teacher - firstname, middlename, lastname, position
-       student - firstname, middlename, lastname, course, year level
-    </pre>
+    
         <div class="col-md-12">
              <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
                 <li role="presentation" class="active" style="width:20%;">
@@ -37,43 +34,43 @@
                                 <td class="text-center font-roboto color-a2">DEPARTMENT</td>
                                 <td class="text-center font-roboto color-a2">ACTION</td>
                             </tr>
-                    </thead>
-                    <tbody class="professor-list-tablebody">
-                        <?php
-                            if($data[0]){
-                                foreach($data[0] as $u){
-                                    
-                                    $id = $u['idusers'];
-                                    $user = $u['user'];
-                                    $firstname = $u['firstname'];
-                                    $middlename = $u['middlename'];
-                                    $lastname = $u['lastname'];
-                                    $position = $u['position'];
-                                    $department = $u['department'];
-                                    $user_level = $u['user_level'];
-                                    if($user_level == '2'){
-                                        echo "
-                                            <tr>  
-                                                <td class='text-center'>$id</td>
-                                                <td class='text-center'>$lastname, $firstname $middlename</td>
-                                                <td class='text-center'>$position</td>
-                                                <td class='text-center'>$department</td>
-                                                <td class='text-center'>
-                                                    <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
-                                                        <i class='material-icons'>create</i>
-                                                    </button>
-                                                    <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
-                                                        <i class='material-icons'>delete</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ";
+                        </thead>
+                        <tbody class="professor-list-tablebody">
+                            <?php
+                                if($data[0]){
+                                    foreach($data[0] as $u){
+                                        
+                                        $id = $u['idusers'];
+                                        $user = $u['user'];
+                                        $firstname = $u['firstname'];
+                                        $middlename = $u['middlename'];
+                                        $lastname = $u['lastname'];
+                                        $position = $u['position'];
+                                        $department = $u['department'];
+                                        $user_level = $u['user_level'];
+                                        if($user_level == '2'){
+                                            echo "
+                                                <tr>  
+                                                    <td class='text-center'>$id</td>
+                                                    <td class='text-center'>$lastname, $firstname $middlename</td>
+                                                    <td class='text-center'>$position</td>
+                                                    <td class='text-center'>$department</td>
+                                                    <td class='text-center'>
+                                                        <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                            <i class='material-icons'>create</i>
+                                                        </button>
+                                                        <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                            <i class='material-icons'>delete</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ";
+                                        }
                                     }
                                 }
-                            }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab-studentlist">
                     <div class="row">
@@ -127,6 +124,12 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
+                    <div class="row">
+                        <pre>
+                            teacher - firstname, middlename, lastname, position
+                            student - firstname, middlename, lastname, course, year level
+                        </pre>
+                    </div>
                     <div class="row">
                         <label class="control-label"><h3><b>Import File</b></h3></label>
                         <input id="input-import-users" name="usersFile" type="file" multiple class="file-loading">
