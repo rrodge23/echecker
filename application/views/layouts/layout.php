@@ -1,6 +1,6 @@
 
 <?php
-    $dashboard="";$subjects="";$users="";$reports="";$notification="";
+    $dashboard="";$subjects="";$users="";$reports="";$departments="";$imports="";$courses="";
     switch($currentPath){
         case 'dashboard':
             $dashboard='active';
@@ -14,8 +14,14 @@
         case 'reports':
             $reports='active';
             break;
-        case 'notifications':
-            $notification='active';
+        case 'departments':
+            $departments='active';
+            break;  
+        case 'courses':
+            $courses='active';
+            break;    
+        case 'imports':
+            $imports='active';
             break;
         default:
     };
@@ -24,7 +30,6 @@
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="danger">
 
-   
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="dashboard" class="simple-text">
@@ -45,8 +50,19 @@
                         <i class="material-icons">subject</i>
                         <p>Subjects</p>
                     </a>
-                </li>   
-               
+                </li>
+                <li class="<?=$departments?>">
+                    <a href="departments">
+                        <i class="material-icons">view_quilt</i>
+                        <p>Department</p>
+                    </a>
+                </li>
+                <li class="<?=$courses?>">
+                    <a href="courses">
+                        <i class="material-icons">book</i>
+                        <p>Course</p>
+                    </a>
+                </li>
                 <li class="<?=$users?>">
                     <a href="users">
                         <i class="material-icons">account_box</i>
@@ -59,13 +75,12 @@
                         <p>Reports</p>
                     </a>
                 </li>
-                <li class="<?=$notification?>">
-                    <a href="notifications">
-                        <i class="material-icons">notifications</i>
-                        <p>Notifications</p>
+                <li class="<?=$imports?>">
+                    <a href="imports">
+                        <i class="material-icons">file_download</i>
+                        <p>Import Record</p>
                     </a>
                 </li>
-			
             </ul>
     	</div>
     </div>

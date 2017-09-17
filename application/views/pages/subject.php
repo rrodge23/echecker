@@ -14,7 +14,7 @@
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
     </thead>
-    <tbody class="professor-list-tablebody">
+    <tbody>
         <?php
             foreach($data as $subj){
                 $id = $subj['idsubject'];
