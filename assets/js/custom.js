@@ -95,8 +95,10 @@ $(document).ready(function(){
 
     //********* DATA TABLES
     $('#table-professorslist').DataTable();
+    $('#table-courselist').DataTable();
     $('#table-studentslist').DataTable();
     $('#table-subjectList').DataTable();
+    $('#table-departmentlist').DataTable();
     //********* DATA TABLES END
 
     //********* USERLIST
@@ -142,6 +144,95 @@ $(document).ready(function(){
     });
    
     //********* FILEINPUT END
+
+    //********* ADD USERS \
+    $(document).on('click','.btn-add-teacher',function(e){
+        e.preventDefault();
+        $('#mdl-title').html('Add User');
+        var inputList = ["user","pass","firstname","middlename","lastname","position"];
+        var htmlbody = '<form action="users/addteacher" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-teacher">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-teacher" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    $(document).on('click','.btn-add-student',function(e){
+        e.preventDefault();
+        $('#mdl-title').html('Add User');
+        var inputList = ["user","pass","firstname","middlename","lastname","course","year_level"];
+        var htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-student" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+    
+    //********* ADD USERS END
+    //********* POST ADD USERS
+    $(document).on('submit','.mdl-frm-add-users',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Save this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){ 
+                        if(data == true){
+                            swal("success", "Record Added.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", "Error In Adding Users", "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Add Canceled.", "error");
+            }
+        });
+        
+    });
+    //********* POST ADD USERS END
+
     //********* DELETE USER
 
     $(document).on('click','.btn-delete-user',function(e){
@@ -215,18 +306,7 @@ $(document).ready(function(){
                                +'</div>'
                 });
                 
-                htmlbody += ''
-                            +'<div class="form-group">'
-                            +'   <label for="exampleFormControlSelect1">Example select</label>'
-                            +'    <select class="form-control" id="exampleFormControlSelect1">'
-                            +'    <option>1</option>'
-                            +'    <option>2</option>'
-                            +'    <option>3</option>'
-                            +'    <option>4</option>'
-                            +'    <option>5</option>'
-                            +'    </select>'
-                            +'</div>'
-                        ;
+                htmlbody += '</form>';
                 
                 $('.modal-body').html(htmlbody);
                 
@@ -496,7 +576,406 @@ $(document).ready(function(){
     });
     //******** POST DELETE SUBJECT END*/
     
+    //******** ADD DEPARTMENT */
+    $(document).on('click','.btn-add-department',function(e){
+        e.preventDefault();
+        
+        $('#mdl-title').html('Add Department');
+        var inputList = ["department name","Description"];
+        var htmlbody = '<form action="departments/adddepartment" method="post" onsubmit="return false;" id="mdl-frm-add-department">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-department" class="btn btn-primary btn-post-add-department"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
     
     
+        $('#modal-dynamic').modal('show');
+    });
+    
+    //******** ADD DEPARTMENT END*/
 
+    //******** POST ADD DEPARTMENT */
+    $(document).on('submit','#mdl-frm-add-department',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Save this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){ 
+                        if(data[1] == true){
+                            swal("success", "Record Added.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Add Canceled.", "error");
+            }
+        });
+        
+    });
+
+    //******** POST ADD DEPARTMENT END*/
+
+
+
+    //******** UPDATE DEPARTMENT*/
+    $(document).on('click','.btn-update-department',function(e){
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url:'departments/getdepartmentinfobyid',
+            dataType:"json",
+            method:"POST",
+            data:{id:id},
+            success:function(data){
+                console.log(data[0]);
+                if(data[1] == true){
+                    $('#mdl-title').html('Update Department');
+                    var inputList = ["department_name","description"];
+
+                    var htmlbody = '<form action="departments/updatedepartment" method="POST" id="mdl-frm-update-department" onsubmit="return false;">'
+                                +'<input type="hidden" value="'+data[0]['iddepartment']+'" name="iddepartment">';
+                    inputList.forEach(function(inputs){
+                        htmlbody += '<div class="input-group">'
+                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                                +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
+                                +'</div>'
+                    });
+                    htmlbody += '</form>';
+                            
+                    $('.modal-body').html(htmlbody);
+                    
+                    var footer = '<button type="submit" form="mdl-frm-update-department" class="btn btn-primary btn-post-department-update">Save changes</button>'
+                                +'<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+                    $('.modal-footer').html(footer);
+                }
+            }
+        });
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    //******** UPDATE DEPARTMENT END*/
+
+    //******** POST UPDATE DEPARTMENT*/
+
+    $(document).on('submit','#mdl-frm-update-department',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to update this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){
+                        if(data[1] == true){
+                            swal("success", "Record Updated.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Update Canceled.", "error");
+            }
+        });
+        
+    });
+
+    //******** POST UPDATE DEPARTMENT END*/
+
+
+    //******** POST DELETE DEPARTMENT*/
+
+    $(document).on('click','.btn-delete-department',function(e){
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        var url = btn.attr('href');
+
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            
+            if (isConfirm) {
+                
+                $.ajax({
+                url:url,
+                data:{id:id},
+                dataType:"json",
+                method:"POST",
+                success:function(data){
+                    if(data[1] == true){
+                        btn.closest("tr").remove();
+                        swal("success", "Record Deleted.", "success");
+                        
+                    }else{
+                        swal("Cancelled", data[0], "error");S
+                    }
+                }
+            });
+            } else {
+                swal("Cancelled", "Delete Canceled.", "error");
+            }
+        });
+        
+        
+    });
+    //******** POST DELETE DEPARTMENT END*/
+
+    //******** ADD COURSE */
+    $(document).on('click','.btn-add-course',function(e){
+        e.preventDefault();
+        
+        $('#mdl-title').html('Add course');
+        var inputList = ["course name","description"];
+        var htmlbody = '<form action="courses/addcourse" method="post" onsubmit="return false;" id="mdl-frm-add-course">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-course" class="btn btn-primary btn-post-add-course"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    //******** ADD COURSE END*/
+
+    //******** POST ADD COURSE */
+    $(document).on('submit','#mdl-frm-add-course',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Save this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){ 
+                        if(data[1] == true){
+                            swal("success", "Record Added.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Add Canceled.", "error");
+            }
+        });
+        
+    });
+
+    //******** POST ADD COURSE END*/
+
+
+    //******** UPDATE COURSE*/
+    $(document).on('click','.btn-update-course',function(e){
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url:'courses/getcourseinfobyid',
+            dataType:"json",
+            method:"POST",
+            data:{id:id},
+            success:function(data){
+                console.log(data[0]);
+                if(data[1] == true){
+                    $('#mdl-title').html('Update course');
+                    var inputList = ["course_name","description"];
+
+                    var htmlbody = '<form action="courses/updatecourse" method="POST" id="mdl-frm-update-course" onsubmit="return false;">'
+                                +'<input type="hidden" value="'+data[0]['idcourse']+'" name="idcourse">';
+                    inputList.forEach(function(inputs){
+                        htmlbody += '<div class="input-group">'
+                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                                +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
+                                +'</div>'
+                    });
+                    htmlbody += '</form>';
+                            
+                    $('.modal-body').html(htmlbody);
+                    
+                    var footer = '<button type="submit" form="mdl-frm-update-course" class="btn btn-primary btn-post-course-update">Save changes</button>'
+                                +'<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+                    $('.modal-footer').html(footer);
+                }
+            }
+        });
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    //******** UPDATE COURSE END*/
+
+    //******** POST UPDATE COURSE*/
+
+    $(document).on('submit','#mdl-frm-update-course',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to update this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){
+                        if(data[1] == true){
+                            swal("success", "Record Updated.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Update Canceled.", "error");
+            }
+        });
+        
+    });
+    //******** POST UPDATE COURSE END*/
+
+    //******** POST DELETE COURSE*/
+
+    $(document).on('click','.btn-delete-course',function(e){
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        var url = btn.attr('href');
+
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            
+            if (isConfirm) {
+                
+                $.ajax({
+                url:url,
+                data:{id:id},
+                dataType:"json",
+                method:"POST",
+                success:function(data){
+                    if(data[1] == true){
+                        btn.closest("tr").remove();
+                        swal("success", "Record Deleted.", "success");
+                        
+                    }else{
+                        swal("Cancelled", data[0], "error");S
+                    }
+                }
+            });
+            } else {
+                swal("Cancelled", "Delete Canceled.", "error");
+            }
+        });
+        
+        
+    });
+    //******** POST DELETE COURSE END*/
 });

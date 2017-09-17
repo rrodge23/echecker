@@ -1,3 +1,4 @@
+
 <div class="row">
     
         <div class="col-md-12">
@@ -25,6 +26,9 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="tab-professorlist">
+                <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-teacher btn btn-success' type='button' name='create' onclick='return false;'>
+                    <i class='material-icons'>add</i>
+                </button>
                     <table id="table-professorslist" class="table table-striped">        
                         <thead>
                             <tr>
@@ -74,6 +78,9 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab-studentlist">
                     <div class="row">
+                        <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-student btn btn-success' type='button' name='create' onclick='return false;'>
+                            <i class='material-icons'>add</i>
+                        </button>
                         <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
                             <thead>
                                 <tr>
