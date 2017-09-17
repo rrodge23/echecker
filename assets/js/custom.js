@@ -99,6 +99,7 @@ $(document).ready(function(){
     $('#table-studentslist').DataTable();
     $('#table-subjectList').DataTable();
     $('#table-departmentlist').DataTable();
+    $('#table-schedulelist').DataTable();
     //********* DATA TABLES END
 
     //********* USERLIST
@@ -363,7 +364,75 @@ $(document).ready(function(){
 
     //********* UPDATE USER END
     
+    //******** SCHEDUELES */
+    
+    
+    $(document).on('click','.btn-schedule',function(e){
+        e.preventDefault();
+        $('#mdl-secondary-title').html('Schedule List');
+        var htmlbody = '';
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url:'schedules/getAllschedules',
+            dataType:"json",
+            method:"POST",
+            success:function(data){
+                htmlbody = '<table id="table-schedulelist" class="table table-striped">'
+                          +'<thead>'
+                          +'<tr>'
+                          +'<td class="text-center font-roboto color-a2">ID</td>'
+                          +'<td class="text-center font-roboto color-a2">CODE</td>'
+                          +'<td class="text-center font-roboto color-a2">DAY</td>'
+                          +'<td class="text-center font-roboto color-a2">TIME</td>'
+                          +'<td class="text-center font-roboto color-a2">STATUS</td>'
+                          +'<td class="text-center font-roboto color-a2">ACTION</td>'
+                          +'</tr>'
+                          +'</thead>'
+                          +'<tbody>';
 
+                data.forEach(function(inputs){
+                    var id = inputs['idschedule'];
+                    var code = inputs['code'];
+                    var day = inputs['day'];
+                    var time = inputs['time'];
+                    htmlbody += "<tr>"
+                            +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+time+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>status_area</td>"
+                            +"<td class='text-center font-roboto color-a2'>"
+                            +"<button data-id='"+id+"' rel='tooltip' data-original-title='Select' class='pull-right mdl-btn-add-schedule btn btn-success' type='button' name='create'>"
+                            +"<i class='material-icons'>add</i>"
+                            +"</button>"
+                            +"</td>"
+                            +"</tr>";    
+                });
+                htmlbody+= "</tbody>"
+                      +"</table>";
+                $('.modal-secondary-body').html(htmlbody);
+                
+            }
+        });
+        var footer = '<div style="padding:5px;" class="text-right"><button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button></div>';
+        $('.modal-secondary-footer').html(footer);
+    
+    
+        $('#modal-dynamic-secondary').modal('show');
+    });
+
+
+    $(document).on('click','.mdl-btn-add-schedule',function(e){
+        var btn = $(this);
+        var id = btn.data('id');
+        $('#mdl-input-schedule').val(id);
+        $('#modal-dynamic-secondary').modal('hide');
+    });
+
+    //******** SCHEDUELES  END*/
+    
     //******** Add Subject */
     $(document).on('click','.btn-add-subject',function(e){
         e.preventDefault();
@@ -377,7 +446,11 @@ $(document).ready(function(){
                         +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
                         +'</div>'
         });
-        htmlbody += '</form>';
+        htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
+                        +'   <input type="button" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
+                     +'</div>'
+                     +'</form>';
         $('.modal-body').html(htmlbody);
         
         var footer = '<button type="submit" form="mdl-frm-add-subject" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
@@ -978,4 +1051,5 @@ $(document).ready(function(){
         
     });
     //******** POST DELETE COURSE END*/
+
 });

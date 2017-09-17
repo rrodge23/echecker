@@ -14,15 +14,9 @@ class Mdl_subjects extends CI_Model {
     }
 
     public function addSubject($data=false){
-        
-        $query=$this->db->where('code',$data['Code'])
-                    ->get('subjecttbl');
-        if($query->num_rows > 0){
-            return array('Subject Already Exist', false);   
-        }else{
-            return array($this->db->insert('subjecttbl',$data),true);
-        }
-        return array("",false);
+       
+        return array($this->db->insert('subjecttbl',$data),true);
+     
     }
     
     public function getSubjectInfoById($data=false){
