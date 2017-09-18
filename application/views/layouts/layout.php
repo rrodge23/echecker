@@ -1,6 +1,6 @@
 
 <?php
-    $dashboard="";$subjects="";$users="";$reports="";$departments="";$imports="";$courses="";
+    $dashboard="";$subjects="";$users="";$reports="";$departments="";$imports="";$courses="";$schedules="";
     switch($currentPath){
         case 'dashboard':
             $dashboard='active';
@@ -16,7 +16,10 @@
             break;
         case 'departments':
             $departments='active';
-            break;  
+            break; 
+         case 'schedules':
+            $schedules='active';
+            break;   
         case 'courses':
             $courses='active';
             break;    
@@ -44,23 +47,28 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                
                 <li class="<?=$subjects?>">
                     <a href="subjects">
                         <i class="material-icons">subject</i>
                         <p>Subjects</p>
                     </a>
                 </li>
+                <li class="<?=$schedules?>">
+                    <a href="schedules">
+                        <i class="material-icons">schedule</i>
+                        <p>Schedules</p>
+                    </a>
+                </li>
                 <li class="<?=$departments?>">
                     <a href="departments">
                         <i class="material-icons">view_quilt</i>
-                        <p>Department</p>
+                        <p>Departments</p>
                     </a>
                 </li>
                 <li class="<?=$courses?>">
                     <a href="courses">
                         <i class="material-icons">book</i>
-                        <p>Course</p>
+                        <p>Courses</p>
                     </a>
                 </li>
                 <li class="<?=$users?>">
@@ -78,7 +86,7 @@
                 <li class="<?=$imports?>">
                     <a href="imports">
                         <i class="material-icons">file_download</i>
-                        <p>Import Record</p>
+                        <p>Import Records</p>
                     </a>
                 </li>
             </ul>

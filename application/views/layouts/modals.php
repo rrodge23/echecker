@@ -10,8 +10,7 @@
         <h5 class="modal-title" id="mdl-title"></h5>
       </div>
       <div class="modal-body">
-      
-        
+    
       </div>
       <div class="modal-footer">
         
@@ -22,7 +21,7 @@
 
 <div id="modal-dynamic-secondary" class="modal fade">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width:100%;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>

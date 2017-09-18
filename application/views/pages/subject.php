@@ -22,7 +22,7 @@
                 $code = $subj['code'];
                 $description = $subj['description'];
                 $units = $subj['units'];
-                $schedule = $subj['schedule'];
+                $schedule = $subj['code'];
                 
             
             echo "

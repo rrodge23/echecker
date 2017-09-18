@@ -12,6 +12,7 @@
     <link href= "assets/css/animate.min.css" rel="stylesheet" type="text/css"/> 
     <link href= "assets/css/paper-dashboard.css" rel="stylesheet" type="text/css"/> 
     <link href= "assets/css/demo.css" rel="stylesheet" type="text/css"/> 
+    <link href= "assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/> 
     <!--<link href= "assets/css/themify-icons.css" rel="stylesheet" type="text/css"/> -->
     <!--<link href= "assets/css/material.css" rel="stylesheet" type="text/css"/>-->
     <link href= "assets/css/material-icons.css" rel="stylesheet" type="text/css"/>
@@ -24,6 +25,7 @@
     <link href= "assets/css/fileinput-rtl.min.css" rel="stylesheet" type="text/css"/> 
     <link href= "assets/css/default.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/fonts.css" rel="stylesheet" type="text/css"/> 
+    
     
 </head>
 <body>
