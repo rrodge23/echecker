@@ -99,7 +99,13 @@ $(document).ready(function(){
     $('#table-studentslist').DataTable();
     $('#table-subjectList').DataTable();
     $('#table-departmentlist').DataTable();
-    //********* DATA TABLES END
+    $('#table-scheduleList-main').DataTable();
+    //********* DATA TABLES END\
+
+    //********* SELECT PICKER
+    $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+
+    //********* SELECT PICKER END
 
     //********* USERLIST
 
@@ -148,45 +154,34 @@ $(document).ready(function(){
     //********* ADD USERS \
     $(document).on('click','.btn-add-teacher',function(e){
         e.preventDefault();
-        $('#mdl-title').html('Add User');
-        var inputList = ["user","pass","firstname","middlename","lastname","position"];
-        var htmlbody = '<form action="users/addteacher" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-teacher">';
-        inputList.forEach(function(inputs){
-            htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+        $.ajax({
+            url:'users/modaladdteacher',
+            dataType:"json",
+            success:function(data){
+                console.log(data);
+                $('#mdl-title').html('Add User');
+                $('.modal-body').html(data["body"]);
+                $('.modal-footer').html(data["footer"]);
+            }
         });
-        htmlbody += '</form>';
-        $('.modal-body').html(htmlbody);
-        
-        var footer = '<button type="submit" form="mdl-frm-add-teacher" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
-                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
-        $('.modal-footer').html(footer);
-    
-    
+
         $('#modal-dynamic').modal('show');
+    
     });
 
     $(document).on('click','.btn-add-student',function(e){
         e.preventDefault();
-        $('#mdl-title').html('Add User');
-        var inputList = ["user","pass","firstname","middlename","lastname","course","year_level"];
-        var htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
-        inputList.forEach(function(inputs){
-            htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+        $.ajax({
+            url:'users/modaladdstudent',
+            dataType:"json",
+            success:function(data){
+                console.log(data);
+                $('#mdl-title').html('Add User');
+                $('.modal-body').html(data["body"]);
+                $('.modal-footer').html(data["footer"]);
+            }
         });
-        htmlbody += '</form>';
-        $('.modal-body').html(htmlbody);
-        
-        var footer = '<button type="submit" form="mdl-frm-add-student" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
-                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
-        $('.modal-footer').html(footer);
-    
-    
+
         $('#modal-dynamic').modal('show');
     });
     
@@ -290,29 +285,18 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                console.log(data);
-                $('#mdl-title').html('Update User');
-                if(data["user_level"] == 1){
-                    var inputList = ["firstname","middlename","lastname","course","year_level"];
-                }else if(data["user_level"] == 2){
-                    var inputList = ["firstname","middlename","lastname","position"];
-                }
-                var htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">'
-                              +'<input type="hidden" value="'+data['idusers']+'" name="idusers">';
-                inputList.forEach(function(inputs){
-                    htmlbody += '<div class="input-group">'
-                               +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+inputs+'</div></span>'
-                               +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[inputs]+'" aria-describedby="basic-addon1" required="required">'
-                               +'</div>'
+                $.ajax({
+                    url:'users/modalUpdateUser',
+                    dataType:"json",
+                    method:"POST",
+                    data:data,
+                    success:function(data){
+                        $('#mdl-title').html('Update User');
+                        $('.modal-body').html(data["body"]);
+                        
+                        $('.modal-footer').html(data["footer"]);
+                    }
                 });
-                
-                htmlbody += '</form>';
-                
-                $('.modal-body').html(htmlbody);
-                
-                var footer = '<button type="submit" form="mdl-frm-update-user" class="btn btn-primary btn-post-user-update">Save changes</button>'
-                            +'<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-                $('.modal-footer').html(footer);
             }
         });
     
@@ -363,7 +347,77 @@ $(document).ready(function(){
 
     //********* UPDATE USER END
     
+    //******** SCHEDUELES */
+    
+    
+    $(document).on('click','.btn-schedule',function(e){
+        e.preventDefault();
+        $('#mdl-secondary-title').html('Schedule List');
+        var htmlbody = '';
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            url:'schedules/getAllschedules',
+            dataType:"json",
+            method:"POST",
+            success:function(data){
+                htmlbody = '<table id="table-schedulelist" class="table table-striped">'
+                          +'<thead>'
+                          +'<tr>'
+                          +'<td class="text-center font-roboto color-a2">ID</td>'
+                          +'<td class="text-center font-roboto color-a2">CODE</td>'
+                          +'<td class="text-center font-roboto color-a2">DAY</td>'
+                          +'<td class="text-center font-roboto color-a2">TIME</td>'
+                          +'<td class="text-center font-roboto color-a2">STATUS</td>'
+                          +'<td class="text-center font-roboto color-a2">ACTION</td>'
+                          +'</tr>'
+                          +'</thead>'
+                          +'<tbody>';
 
+                data.forEach(function(inputs){
+                    var id = inputs['idschedule'];
+                    var code = inputs['code'];
+                    var day = inputs['day'];
+                    var time = inputs['time'];
+                    htmlbody += "<tr>"
+                            +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+time+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>status_area</td>"
+                            +"<td class='text-center font-roboto color-a2'>"
+                            +"<button data-id='"+id+"' data-code='"+code+"' rel='tooltip' data-original-title='Select' class='pull-right mdl-btn-add-schedule btn btn-success' type='button' name='create'>"
+                            +"<i class='material-icons'>add</i>"
+                            +"</button>"
+                            +"</td>"
+                            +"</tr>";    
+                });
+                htmlbody+= "</tbody>"
+                      +"</table>";
+                $('.modal-secondary-body').html(htmlbody);
+                
+            }
+        });
+        var footer = '<div style="padding:5px;" class="text-right"><button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button></div>';
+        $('.modal-secondary-footer').html(footer);
+    
+    
+        $('#modal-dynamic-secondary').modal('show');
+    });
+
+
+    $(document).on('click','.mdl-btn-add-schedule',function(e){
+        var btn = $(this);
+        var id = btn.data('id');
+        var code = btn.data('code');
+        $('#mdl-input-schedule').val(id);
+        $('#mdl-input-temp-schedule').val(code);
+        $('#modal-dynamic-secondary').modal('hide');
+    });
+
+    //******** SCHEDUELES  END*/
+    
     //******** Add Subject */
     $(document).on('click','.btn-add-subject',function(e){
         e.preventDefault();
@@ -377,7 +431,12 @@ $(document).ready(function(){
                         +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
                         +'</div>'
         });
-        htmlbody += '</form>';
+        htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
+                        +'   <input type="hidden" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required">'
+                        +'   <input type="button" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
+                     +'</div>'
+                     +'</form>';
         $('.modal-body').html(htmlbody);
         
         var footer = '<button type="submit" form="mdl-frm-add-subject" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>'
@@ -978,4 +1037,80 @@ $(document).ready(function(){
         
     });
     //******** POST DELETE COURSE END*/
+
+    
+    //******** ADD SCHEDULE*/
+
+
+    $(document).on('click','.btn-add-schedule',function(e){
+        e.preventDefault();
+        
+        $('#mdl-title').html('Add Schedule');
+        var inputList = ["code","day","status"];
+        var htmlbody = '<form action="schedules/addschedule" method="post" onsubmit="return false;" id="mdl-frm-add-schedule">';
+        inputList.forEach(function(inputs){
+            htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>'
+        });
+        htmlbody += '<div class="input-group">'
+                    +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
+                    +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                    +'</div>'
+                        +'</form>';
+        $('.modal-body').html(htmlbody);
+        
+        var footer = '<button type="submit" form="mdl-frm-add-schedule" class="btn btn-primary btn-post-add-schedule"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+    
+    
+        $('#modal-dynamic').modal('show');
+    });
+
+    //******** ADD SCHEDULE END*/
+    
+    //******** POST ADD SCHEDULE*/
+    $(document).on('submit','#mdl-frm-add-schedule',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to Save this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){ 
+                        if(data[1] == true){
+                            swal("success", "Record Added.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Add Canceled.", "error");
+            }
+        });
+        
+    });
+    //******** POST ADD SCHEDULE END*/
+    
 });

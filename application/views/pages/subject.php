@@ -11,6 +11,7 @@
             <td class="text-center font-roboto color-a2">SUBJECT CODE</td>
             <td class="text-center font-roboto color-a2">DESCRIPTION</td>
             <td class="text-center font-roboto color-a2">UNITS</td>
+            <td class="text-center font-roboto color-a2">SCHEDULE</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
     </thead>
@@ -20,8 +21,9 @@
                 $id = $subj['idsubject'];
                 $code = $subj['code'];
                 $description = $subj['description'];
-                $units = $subj['units']
-                ;
+                $units = $subj['units'];
+                $schedule = $subj['code'];
+                
             
             echo "
                 <tr>
@@ -29,6 +31,7 @@
                     <td class='text-center font-roboto color-a2'>$code</td>
                     <td class='text-center font-roboto color-a2'>$description</td>
                     <td class='text-center font-roboto color-a2'>$units</td>
+                    <td class='text-center font-roboto color-a2' id='sample'>$schedule</td>
                     <td class='text-center font-roboto color-a2'>
                         
                         <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-subject btn btn-info' type='button' name='update' onclick='return false;'>

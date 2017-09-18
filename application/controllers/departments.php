@@ -15,6 +15,12 @@ class Departments extends MY_Controller {
 		$this->_view('department',$department);
 	}
 
+	public function getAllDepartments($data=false){
+		$this->load->model('mdl_Departments');
+		$departmentList = $this->mdl_Departments->getAllDepartments($_POST);
+		echo json_encode($departmentList);
+	}
+
     public function addDepartment($data=false){
 		$this->load->model('mdl_Departments');
 		$isDepartmentAdded = $this->mdl_Departments->addDepartment($_POST);

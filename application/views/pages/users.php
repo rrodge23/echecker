@@ -33,6 +33,7 @@
                         <thead>
                             <tr>
                                 <td class="text-center font-roboto color-a2">ID</td>
+                                <td class="text-center font-roboto color-a2">CODE</td>
                                 <td class="text-center font-roboto color-a2">NAME</td>
                                 <td class="text-center font-roboto color-a2">POSITION</td>
                                 <td class="text-center font-roboto color-a2">DEPARTMENT</td>
@@ -45,17 +46,19 @@
                                     foreach($data[0] as $u){
                                         
                                         $id = $u['idusers'];
+                                        $code = $u['code'];
                                         $user = $u['user'];
                                         $firstname = $u['firstname'];
                                         $middlename = $u['middlename'];
                                         $lastname = $u['lastname'];
                                         $position = $u['position'];
-                                        $department = $u['department'];
+                                        $department = $u['department_name'];
                                         $user_level = $u['user_level'];
                                         if($user_level == '2'){
                                             echo "
                                                 <tr>  
                                                     <td class='text-center'>$id</td>
+                                                    <td class='text-center'>$code</td>
                                                     <td class='text-center'>$lastname, $firstname $middlename</td>
                                                     <td class='text-center'>$position</td>
                                                     <td class='text-center'>$department</td>
@@ -85,6 +88,7 @@
                             <thead>
                                 <tr>
                                     <td class="text-center font-roboto color-a2">ID</td>
+                                    <td class="text-center font-roboto color-a2">CODE</td>
                                     <td class="text-center font-roboto color-a2">NAME</td>
                                     <td class="text-center font-roboto color-a2">DEPARTMENT</td>
                                     <td class="text-center font-roboto color-a2">COURSE</td>
@@ -97,10 +101,11 @@
                                     if($data[1]){
                                         foreach($data[1] as $u){
                                             $id = $u['idusers'];
+                                            $code = $u['code'];
                                             $firstname = $u['firstname'];
                                             $middlename = $u['middlename'];
                                             $lastname = $u['lastname'];
-                                            //$department = $u['department_name'];
+                                            $department = $u['department_name'];
                                             $course = $u['course'];
                                             $user_level = $u['user_level'];
                                             $year_level = $u['year_level'];
@@ -108,8 +113,9 @@
                                                 echo "
                                                     <tr>
                                                         <td class='text-center'>$id</td>
+                                                        <td class='text-center'>$code</td>
                                                         <td class='text-center'>$lastname, $firstname $middlename</td>
-                                                        <td class='text-center'>RESERVE FOR DEPT</td>
+                                                        <td class='text-center'>$department</td>
                                                         <td class='text-center'>$course</td>
                                                         <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
@@ -133,8 +139,8 @@
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
                         <pre>
-                            teacher - firstname, middlename, lastname, position
-                            student - firstname, middlename, lastname, course, year level
+                            teacher - code,user,2,firstname, middlename, lastname, position
+                            student - code,user,1,firstname, middlename, lastname, course, year level
                         </pre>
                     </div>
                     <div class="row">
