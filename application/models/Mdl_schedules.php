@@ -14,7 +14,14 @@ class Mdl_schedules extends CI_Model {
     }
 
     public function addschedule($data=false){
+        $data['status'] = 'available';
         
+        $tmpData = "";
+        foreach($data['day'] as $d){
+            $tmpData .= $d . ',';
+        }
+
+        $data['day'] = rtrim($tmpData, ',');
         $query=$this->db->where('code',$data['code'])
                     ->get('subject_scheduletbl');
         if($query->num_rows > 0){

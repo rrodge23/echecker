@@ -119,7 +119,7 @@
                                                         <td class='text-center'>$course</td>
                                                         <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
-                                                            <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                            <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                                 <i class='material-icons'>create</i>
                                                             </button>
                                                             <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>

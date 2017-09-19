@@ -3,7 +3,7 @@
     <pre>
         USER ID CODE - FIELD
     </pre>
-    <select data-placeholder="Choose Fields. . ." class="chosen-select fieldList" tabindex="7">
+    <select name="field" data-placeholder="Choose Field ..." class="chzn-select">';
         <?php
             $header = array("Subjects","Schedules","Departments","Courses");
             $value = array("subjecttbl","subject_scheduletbl","departmenttbl","coursetbl");

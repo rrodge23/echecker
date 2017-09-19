@@ -58,7 +58,9 @@ $(document).ready(function(){
     });
 
     //********* SIGN OUT END
-    
+    $(document).on('click','.dropdown-menu.open',function(){
+        $(this).toggleClass('open');
+    })
      /***************GREETINGS***************/
     var thehours = new Date().getHours();
 	var themessage;
@@ -100,18 +102,19 @@ $(document).ready(function(){
     $('#table-subjectList').DataTable();
     $('#table-departmentlist').DataTable();
     $('#table-scheduleList-main').DataTable();
-    $('#table-scheduleList').DataTable();
+    
     //********* DATA TABLES END\
 
     //********* SELECT PICKER
-
-    //********* DATE PICKER
-    $('.datepicker').datepicker("refresh");
-    //********* DATE PICKER END
-    $(".chosen-select").chosen();
-    $(".fieldList").chosen({no_results_text: "Oops, nothing found!",width:"70%"});
-
+    $(".chzn-select").chosen({width:"80%"});
     //********* SELECT PICKER END
+    
+    //********* DATE PICKER
+    
+    //********* DATE PICKER END
+    //$('#date-format').bootstrapMaterialDatePicker({ format : 'dddd DD MMMM YYYY - HH:mm' });
+    
+
 
     //********* USERLIST
     
@@ -194,6 +197,7 @@ $(document).ready(function(){
                 $('#mdl-title').html('Add User');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
+                $(".chzn-select").chosen({width:"100%"});
             }   
         });
 
@@ -211,6 +215,7 @@ $(document).ready(function(){
                 $('#mdl-title').html('Add User');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
+                $(".chzn-select").chosen({width:"100%"});
             }
         });
 
@@ -311,11 +316,12 @@ $(document).ready(function(){
         e.preventDefault();
         var btn = $(this);
         var id = btn.data('id');
+        var user_level = btn.data('level');
         $.ajax({
             url:'users/getuserinfobyid',
             dataType:"json",
             method:"POST",
-            data:{id:id},
+            data:{id:id,user_level:user_level},
             success:function(data){
                 $.ajax({
                     url:'users/modalUpdateUser',
@@ -326,6 +332,7 @@ $(document).ready(function(){
                         $('#mdl-title').html('Update User');
                         $('.modal-body').html(data["body"]);
                         $('.modal-footer').html(data["footer"]);
+                        $(".chzn-select").chosen({width:"100%"});
                     }
                 });
             }
@@ -400,39 +407,38 @@ $(document).ready(function(){
                           +'<td class="text-center font-roboto color-a2">CODE</td>'
                           +'<td class="text-center font-roboto color-a2">DAY</td>'
                           +'<td class="text-center font-roboto color-a2">TIME</td>'
-                          +'<td class="text-center font-roboto color-a2">STATUS</td>'
                           +'<td class="text-center font-roboto color-a2">ACTION</td>'
                           +'</tr>'
                           +'</thead>'
                           +'<tbody>';
-
                 data.forEach(function(inputs){
                     var id = inputs['idschedule'];
                     var code = inputs['code'];
                     var day = inputs['day'];
                     var time = inputs['time'];
-                    htmlbody += "<tr>"
+                    var status = inputs['status'];
+                    if(status == "available"){
+                        htmlbody += "<tr>"
                             +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+time+"</td>"
-                            +"<td class='text-center font-roboto color-a2'>status_area</td>"
                             +"<td class='text-center font-roboto color-a2' style='text-align:center;'>"
                             +"<button data-id='"+id+"' data-code='"+code+"' rel='tooltip' data-original-title='Select' class='pull-right mdl-btn-add-schedule btn btn-success' type='button' name='create'>"
                             +"<i class='material-icons'>add</i>"
                             +"</button>"
                             +"</td>"
-                            +"</tr>";    
+                            +"</tr>";   
+                    }
                 });
                 htmlbody+= "</tbody>"
                       +"</table>";
                 $('.modal-secondary-body').html(htmlbody);
-                
             }
         });
         var footer = '<div style="padding:5px;" class="text-right"><button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button></div>';
         $('.modal-secondary-footer').html(footer);
-    
+        $('#table-scheduleList').DataTable();
     
         $('#modal-dynamic-secondary').modal('show');
     });
@@ -454,11 +460,11 @@ $(document).ready(function(){
         e.preventDefault();
         
         $('#mdl-title').html('Add Subject');
-        var inputList = ["Code","Description","Units"];
+        var inputList = ["code","description","units"];
         var htmlbody = '<form action="subjects/addsubject" method="post" onsubmit="return false;" id="mdl-frm-add-subject">';
         inputList.forEach(function(inputs){
             htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+inputs+'</div></span>'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
                         +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
                         +'</div>'
         });
@@ -1070,11 +1076,12 @@ $(document).ready(function(){
         
     });
     //******** POST DELETE COURSE END*/
-
+$('#selectpicker').on('hide.bs.dropdown', function () {
+    alert('hide.bs.dropdown');
+})
     
     //******** ADD SCHEDULE*/
-
-
+    
     $(document).on('click','.btn-add-schedule',function(e){
         e.preventDefault();
         $.ajax({
@@ -1084,6 +1091,13 @@ $(document).ready(function(){
                 $('#mdl-title').html('Add Schedule');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
+                $('.datepicker').bootstrapMaterialDatePicker({
+                        time:true,
+                        month:false,
+                        date:false,
+                        format: 'HH:mm'
+                });
+                $(".chzn-select").chosen({width:"100%"});
                 $('#modal-dynamic').modal('show');
             }
         });
@@ -1133,5 +1147,50 @@ $(document).ready(function(){
         
     });
     //******** POST ADD SCHEDULE END*/
+
+    //******** POST DELETE SCHEDULE */
+    $(document).on('click','.btn-delete-schedule',function(e){
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        var url = btn.attr('href');
+
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to delete this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            
+            if (isConfirm) {
+                
+                $.ajax({
+                url:url,
+                data:{id:id},
+                dataType:"json",
+                method:"POST",
+                success:function(data){
+                    if(data[1] == true){
+                        btn.closest("tr").remove();
+                        swal("success", "Record Deleted.", "success");
+                        
+                    }else{
+                        swal("Cancelled", data[0], "error");S
+                    }
+                }
+            });
+            } else {
+                swal("Cancelled", "Delete Canceled.", "error");
+            }
+        });
+        
+    });
+    //******** POST DELETE SCHEDULE END*/
     
 });

@@ -14,9 +14,29 @@ class Mdl_subjects extends CI_Model {
     }
 
     public function addSubject($data=false){
-       
-        return array($this->db->insert('subjecttbl',$data),true);
-     
+    
+        $queryResult = $this->db->where('code',$data['code'])->get('subjecttbl');
+        if($queryResult->row_array()){
+            return array("Duplicate Subject Code",false);
+        }
+        
+        $queryResult = $this->db->insert('subjecttbl',$data);
+        if($queryResult){
+            if(isset($data['schedule'])){
+                $last_insert = $this->db->insert_id();
+
+                $isUpdated = $this->db->set('status','unavailable')
+                                    ->where('idschedule',$data['schedule'])
+                                    ->update('subject_scheduletbl');
+                if($isUpdated){
+                    return array("",true);
+                }
+            }
+        }else{
+            return array("Error in Inserting Subject",false);
+        }
+        return array("",false);
+        
     }
     
     public function getSubjectInfoById($data=false){
@@ -50,14 +70,23 @@ class Mdl_subjects extends CI_Model {
     }
     
     public function deleteSubject($data=false){
-      
-        $query=$this->db->where('idsubject',$data)
-                    ->delete('subjecttbl');
-        if($query){
-            return array("", true);   
-        }else{
-            return array("Error in Record Deletion", false);   
-        }               
+        $queryGetSubject = $this->db->where('idsubject',$data)->get('subjecttbl');
+        if($subjectInfo = $queryGetSubject->row_array()){
+            $isSchedUpdate = $this->db->set('status','available')
+                                    ->where('idschedule',$subjectInfo['schedule'])
+                                    ->update('subject_scheduletbl');
+            if($isSchedUpdate){
+                $query=$this->db->where('idsubject',$data)
+                        ->delete('subjecttbl');
+                if($query){
+                    return array("", true);   
+                }else{
+                    return array("Error in Record Deletion", false);  
+                }
+             
+            }
+        }
+        
         return array("",false);
     }
 

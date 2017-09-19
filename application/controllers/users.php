@@ -51,7 +51,6 @@ class Users extends MY_Controller {
        echo json_encode($isInsertSuccess);
        
     }
-
     
     public function deleteUser(){
         $this->load->model('mdl_Users');
@@ -98,7 +97,7 @@ class Users extends MY_Controller {
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;text-align:left;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
               foreach($department as $d){
                   $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          
@@ -125,7 +124,7 @@ class Users extends MY_Controller {
       
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
-                        <select name="course" data-placeholder="Choose Course" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+                        <select name="course" data-placeholder="Choose Course" class="chzn-select">';
               foreach($course as $c){
                   $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
               }          
@@ -133,7 +132,7 @@ class Users extends MY_Controller {
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" data-placeholder="Choose Department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
               foreach($department as $d){
                   $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          
@@ -146,11 +145,12 @@ class Users extends MY_Controller {
 
     public function modalUpdateUser(){
         if($_POST['user_level'] == 1){
-            $header = array("code","user","firstname","middlename","lastname","course","year_level");
+            $header = array("code","user","firstname","middlename","lastname","year_level");
         }else if($_POST['user_level'] == 2){
             $header = array("code","user","firstname","middlename","lastname","position");
         }
         $htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
+                        <input type="hidden" value="'.$_POST['user_level'].'" name="user_level">
                         <input type="hidden" value="'.$_POST['idusers'].'" name="idusers">';
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
@@ -158,11 +158,23 @@ class Users extends MY_Controller {
                             <input type="text" class="form-control" value="'.$_POST[$h].'" name="'.$h.'" aria-describedby="basic-addon1" required="required">
                         </div>';   
         }
+        if($_POST['user_level'] == 1){
+            $this->load->model('mdl_courses');
+            $course = $this->mdl_courses->getAllcourses();
+      
+            $htmlbody .= '<div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
+                            <select name="course" data-placeholder="Choose course" class="chzn-select">';
+                foreach($course as $c){
+                    $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                }
+                $htmlbody .='</select></div>';
+        }
         $this->load->model('mdl_departments');
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
               foreach($department as $d){
                   $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          

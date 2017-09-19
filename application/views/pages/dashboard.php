@@ -52,13 +52,10 @@
                     </div>
                 </div>
                 
-            <a href="modals">sdfsdfsdf</a>
+          
             <div class="aw">
                 
             </div>
-            <div class="input-group">
-                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Time</div></span>
-                       <input type="text" class="form-control datepicker" name="time" aria-describedby="basic-addon1" required="required">
-                    </div>
+            
             
            

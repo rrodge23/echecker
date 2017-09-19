@@ -55,7 +55,7 @@ class Mdl_Users extends CI_Model {
     public function insertUsers($data=array()){
         
         $isDataValid = false;
-        $studentDataIndex = array('firstname','middlename','lastname','course','year_level','department');
+        $studentDataIndex = array('firstname','middlename','lastname','year_level','department');
         $teacherDataIndex = array('firstname','middlename','lastname','position');
         
         if($data['user_level'] == 1 || $data['user_level'] == 2){
@@ -193,7 +193,7 @@ class Mdl_Users extends CI_Model {
             if($userData['user_level'] == 1){
                 if(isset($data['course'])){
                     $isUpdated = $this->db->set('idcourse',$data['course'])
-                    ->where('UID',$data['idusers'])
+                    ->where('usercourse_id',$data['idusers'])
                     ->update('user_coursetbl');
                     if(!($isUpdated)){
                         return false;
