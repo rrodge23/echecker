@@ -51,17 +51,14 @@
                         </div>
                     </div>
                 </div>
+                
             <a href="modals">sdfsdfsdf</a>
-                <select data-placeholder="Your Favorite Type of Bear" class="chosen-select chosen-rtl" tabindex="7">
-              <option value=""></option>
-              <option>American Black Bear</option>
-              <option>Asiatic Black Bear</option>
-              <option>Brown Bear</option>
-              <option>Giant Panda</option>
-              <option selected>Sloth Bear</option>
-              <option disabled>Sun Bear</option>
-              <option>Polar Bear</option>
-              <option disabled>Spectacled Bear</option>
-            </select>
-              
+            <div class="aw">
+                
+            </div>
+            <div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Time</div></span>
+                       <input type="text" class="form-control datepicker" name="time" aria-describedby="basic-addon1" required="required">
+                    </div>
+            
            

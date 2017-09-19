@@ -27,11 +27,10 @@
 
     <?php
         include APPPATH . "views/layouts/modals.php";
+        include APPPATH . "views/custom-plugins/custom-plugins.php";
     ?>
-
-    <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
-    <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src= "assets/js/bootstrap-select.min.js" type="text/javascript"></script>
+    
+    
     <script src= "assets/plugin/tinymce/tinymce.min.js" type="text/javascript"></script>
     <!--<script src= "assets/js/bootstrap-checkbox-radio.js" type="text/javascript"></script>-->
     <!--<script src= "assets/js/bootstrap-notify.js" type="text/javascript"></script>-->
@@ -42,12 +41,13 @@
     <script src= "assets/js/morris.js" type="text/javascript"></script>
     <script src= "assets/js/jquery-ui.min.js" type="text/javascript"></script>
     <script src= "assets/js/moment.js" type="text/javascript"></script>
-    <script src= "assets/js/datepicker.js" type="text/javascript"></script>
+    <!--<script src= "assets/js/datepicker.js" type="text/javascript"></script>-->
     <script src= "assets/js/dataTables.js" type="text/javascript"></script>
     <script src= "assets/js/sweetalert.min.js" type="text/javascript"></script>
     <!--<script src= "assets/js/bs.js" type="text/javascript"></script>-->
     <script src= "assets/js/fileinput.min.js" type="text/javascript"></script>
     <script src= "assets/js/custom.js" type="text/javascript"></script> 
+    <script src= "assets/js/bootstrap-select.min.js" type="text/javascript"></script>
 </body>
 </html>
     

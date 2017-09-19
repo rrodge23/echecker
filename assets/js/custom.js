@@ -92,7 +92,7 @@ $(document).ready(function(){
         tinymce.init({
         selector: '#mytextarea'
     });
-
+    
     //********* DATA TABLES
     $('#table-professorslist').DataTable();
     $('#table-courselist').DataTable();
@@ -100,15 +100,21 @@ $(document).ready(function(){
     $('#table-subjectList').DataTable();
     $('#table-departmentlist').DataTable();
     $('#table-scheduleList-main').DataTable();
+    $('#table-scheduleList').DataTable();
     //********* DATA TABLES END\
 
     //********* SELECT PICKER
-    $(".chosen-select").chosen({no_results_text: "Oops, nothing found!"});
+
+    //********* DATE PICKER
+    $('.datepicker').datepicker("refresh");
+    //********* DATE PICKER END
+    $(".chosen-select").chosen();
+    $(".fieldList").chosen({no_results_text: "Oops, nothing found!",width:"70%"});
 
     //********* SELECT PICKER END
 
     //********* USERLIST
-
+    
     $('#btn-import-user').on('submit',function(){
         
     });
@@ -136,7 +142,6 @@ $(document).ready(function(){
         }
        
     });
- 
     $(document).on("fileuploaded","#input-import-users",function(event,data,previewId,index){
         if(data.response){
             swal("Success", "Successfully Recorded.", "success");
@@ -148,21 +153,48 @@ $(document).ready(function(){
         }
 
     });
-   
+    
+    $("#input-import-field").fileinput({
+       
+        uploadUrl: "imports/importfield",
+        allowedFileExtensions: ["xlsx", "xlsm", "xlsb", "xltx", "xltm", "xls"
+        , "xlt", "xml" , "xlam" , "xla", "xlw", "xlr", "csv"],
+        previewClass: "bg-warning",
+        uploadAsync:true,
+        layoutTemplates: {
+            main1: "{preview}\n" +
+            "<div class=\'input-group {class}\'>\n" +
+            "   <div class=\'input-group-btn\'>\n" +
+            "       {browse}\n" +
+            "       {upload}\n" +
+            "       {remove}\n" +
+            "   </div>\n" +
+            "   {caption}\n" +
+            "</div>"
+        },
+        uploadExtraData: function (previewId, index) {
+            var fieldVal = $('.fieldList').val();
+            var data = {"field": fieldVal};
+            return data;
+        }
+       
+    });
+    $(document).on("fileuploaded","#input-import-field",function(event,data,previewId,index){
+        alert(data.response);
+    });
     //********* FILEINPUT END
 
     //********* ADD USERS \
     $(document).on('click','.btn-add-teacher',function(e){
         e.preventDefault();
         $.ajax({
-            url:'users/modaladdteacher',
+            url:'users/modalAddTeacher',
             dataType:"json",
             success:function(data){
-                console.log(data);
                 $('#mdl-title').html('Add User');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
-            }
+            }   
         });
 
         $('#modal-dynamic').modal('show');
@@ -293,7 +325,6 @@ $(document).ready(function(){
                     success:function(data){
                         $('#mdl-title').html('Update User');
                         $('.modal-body').html(data["body"]);
-                        
                         $('.modal-footer').html(data["footer"]);
                     }
                 });
@@ -386,7 +417,7 @@ $(document).ready(function(){
                             +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+time+"</td>"
                             +"<td class='text-center font-roboto color-a2'>status_area</td>"
-                            +"<td class='text-center font-roboto color-a2'>"
+                            +"<td class='text-center font-roboto color-a2' style='text-align:center;'>"
                             +"<button data-id='"+id+"' data-code='"+code+"' rel='tooltip' data-original-title='Select' class='pull-right mdl-btn-add-schedule btn btn-success' type='button' name='create'>"
                             +"<i class='material-icons'>add</i>"
                             +"</button>"
@@ -433,7 +464,7 @@ $(document).ready(function(){
         });
         htmlbody += '<div class="input-group">'
                         +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
-                        +'   <input type="hidden" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required">'
+                        +'   <input type="hidden" id="mdl-input-schedule" class="form-control" name="schedule" aria-describedby="basic-addon1" required="required">'
                         +'   <input type="button" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
                      +'</div>'
                      +'</form>';
@@ -514,7 +545,6 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                console.log(data[0]);
                 if(data[1] == true){
                     $('#mdl-title').html('Update Subject');
                     var inputList = ["code","description","units"];
@@ -527,7 +557,12 @@ $(document).ready(function(){
                                 +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
                                 +'</div>'
                     });
-                    htmlbody += '</form>';
+                    htmlbody += '<div class="input-group">'
+                        +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
+                        +'   <input type="hidden" value="'+data[0]["idschedule"]+'" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required">'
+                        +'   <input type="button" value="'+data[0]["code"]+'" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
+                     +'</div>'
+                     +'</form>';
                             
                     $('.modal-body').html(htmlbody);
                     
@@ -717,7 +752,6 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                console.log(data[0]);
                 if(data[1] == true){
                     $('#mdl-title').html('Update Department');
                     var inputList = ["department_name","description"];
@@ -919,7 +953,6 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-                console.log(data[0]);
                 if(data[1] == true){
                     $('#mdl-title').html('Update course');
                     var inputList = ["course_name","description"];
@@ -1044,29 +1077,17 @@ $(document).ready(function(){
 
     $(document).on('click','.btn-add-schedule',function(e){
         e.preventDefault();
-        
-        $('#mdl-title').html('Add Schedule');
-        var inputList = ["code","day","status"];
-        var htmlbody = '<form action="schedules/addschedule" method="post" onsubmit="return false;" id="mdl-frm-add-schedule">';
-        inputList.forEach(function(inputs){
-            htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+        $.ajax({
+            url:'schedules/modaladdshedule',
+            dataType:"json",
+            success:function(data){
+                $('#mdl-title').html('Add Schedule');
+                $('.modal-body').html(data["body"]);
+                $('.modal-footer').html(data["footer"]);
+                $('#modal-dynamic').modal('show');
+            }
         });
-        htmlbody += '<div class="input-group">'
-                    +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                    +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                    +'</div>'
-                        +'</form>';
-        $('.modal-body').html(htmlbody);
         
-        var footer = '<button type="submit" form="mdl-frm-add-schedule" class="btn btn-primary btn-post-add-schedule"><i class="material-icons">playlist_add_check</i></button>'
-                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
-        $('.modal-footer').html(footer);
-    
-    
-        $('#modal-dynamic').modal('show');
     });
 
     //******** ADD SCHEDULE END*/

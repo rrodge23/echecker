@@ -110,7 +110,7 @@ class Users extends MY_Controller {
     }
 
     public function modalAddStudent(){
-        $header = array("code","user","firstname","middlename","lastname","course","year_level");
+        $header = array("code","user","firstname","middlename","lastname","year_level");
         $htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
@@ -119,6 +119,17 @@ class Users extends MY_Controller {
                         </div>';   
         }
         $this->load->model('mdl_departments');
+        $this->load->model('mdl_courses');
+        
+        $course = $this->mdl_courses->getAllcourses();
+      
+        $htmlbody .= '<div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
+                        <select name="course" data-placeholder="Choose Course" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+              foreach($course as $c){
+                  $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+              }          
+              $htmlbody .='</select></div>';
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
@@ -139,7 +150,6 @@ class Users extends MY_Controller {
         }else if($_POST['user_level'] == 2){
             $header = array("code","user","firstname","middlename","lastname","position");
         }
-        
         $htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
                         <input type="hidden" value="'.$_POST['idusers'].'" name="idusers">';
         foreach($header as $h){
@@ -162,5 +172,6 @@ class Users extends MY_Controller {
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
         echo json_encode(array('body'=>$htmlbody,'footer'=>$htmlfooter));
     }
+
 
 }
