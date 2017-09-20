@@ -25,18 +25,22 @@ class Users extends MY_Controller {
             $highestRow = $worksheet->getHighestRow();
             $highestColumnLetter = $worksheet->getHighestDataColumn();
             $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
-            $header = array('code','user','user_level','firstname','middlename','lastname');
+            $header = array('user_level','code','user','firstname','middlename','lastname');
             for($row=2; $row<=$highestRow; $row++){
                 $colDatas = array();
-                for($col=0;$col<$highestColumn-2;$col++){ 
+                for($col=0;$col<count($header);$col++){ 
                     $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
                 }
                 if($colDatas['user_level'] == 1){
                     $colDatas['course'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
                     $colDatas['year_level'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
+                    $colDatas['department'] = $worksheet->getCellByColumnAndRow(8,$row)->getFormattedValue();
 
                 }else if($colDatas['user_level'] == 2){
                     $colDatas['position'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                    $colDatas['department'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
+                }else{
+                    return false;
                 }
                 $colDatas['pass'] = $colDatas['code'];
                 $this->load->model("mdl_Users");
@@ -97,9 +101,9 @@ class Users extends MY_Controller {
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  $htmlbody .= '<option value="'.$d['department_name'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         
@@ -124,17 +128,17 @@ class Users extends MY_Controller {
       
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
-                        <select name="course" data-placeholder="Choose Course" class="chzn-select">';
+                        <select name="course" data-placeholder="Choose Course" class="chzn-select" required="required">';
               foreach($course as $c){
-                  $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                  $htmlbody .= '<option value="'.$c['course_name'].'">'.$c['course_name'].'</option>';
               }          
               $htmlbody .='</select></div>';
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  $htmlbody .= '<option value="'.$d['department_name'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         
@@ -174,7 +178,7 @@ class Users extends MY_Controller {
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" data-placeholder="Choose Department" class="chzn-select">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
                   $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          

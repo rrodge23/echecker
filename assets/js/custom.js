@@ -12,7 +12,6 @@ $(document).ready(function(){
             dataType:"json",
             data:form.serialize(),
             success:function(data){
-                
                 if(data != false){
                     if(data['status'] == 'active'){
                         document.location.href = '/echecker/dashboard';
@@ -413,7 +412,7 @@ $(document).ready(function(){
                           +'<tbody>';
                 data.forEach(function(inputs){
                     var id = inputs['idschedule'];
-                    var code = inputs['code'];
+                    var code = inputs['schedule_code'];
                     var day = inputs['day'];
                     var time = inputs['time'];
                     var status = inputs['status'];
@@ -460,7 +459,7 @@ $(document).ready(function(){
         e.preventDefault();
         
         $('#mdl-title').html('Add Subject');
-        var inputList = ["code","description","units"];
+        var inputList = ["subject code","description","units"];
         var htmlbody = '<form action="subjects/addsubject" method="post" onsubmit="return false;" id="mdl-frm-add-subject">';
         inputList.forEach(function(inputs){
             htmlbody += '<div class="input-group">'
@@ -551,9 +550,10 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
+
                 if(data[1] == true){
                     $('#mdl-title').html('Update Subject');
-                    var inputList = ["code","description","units"];
+                    var inputList = ["subject_code","description","units"];
 
                     var htmlbody = '<form action="subjects/updatesubject" method="POST" id="mdl-frm-update-subject" onsubmit="return false;">'
                                 +'<input type="hidden" value="'+data[0]['idsubject']+'" name="idsubject">';
@@ -566,7 +566,7 @@ $(document).ready(function(){
                     htmlbody += '<div class="input-group">'
                         +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
                         +'   <input type="hidden" value="'+data[0]["idschedule"]+'" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required">'
-                        +'   <input type="button" value="'+data[0]["code"]+'" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
+                        +'   <input type="button" value="'+data[0]["schedule_code"]+'" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
                      +'</div>'
                      +'</form>';
                             
@@ -1095,7 +1095,8 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                         time:true,
                         month:false,
                         date:false,
-                        format: 'HH:mm'
+                        format: 'HH:mm',
+                        shortTime:true,
                 });
                 $(".chzn-select").chosen({width:"100%"});
                 $('#modal-dynamic').modal('show');
@@ -1192,5 +1193,36 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
         
     });
     //******** POST DELETE SCHEDULE END*/
+
+
+    //******** UPDATE SCHEDULE */
+    $(document).on('click','.btn-update-schedule',function(e){
+        var btn = $(this);
+        var id = btn.data('id');
+        $.ajax({
+            data:{id:id},
+            url:'schedules/modalupdateschedule',
+            method:"post",
+            dataType:"json",
+            success:function(data){
+                $('#mdl-title').html('Update Schedule');
+                $('.modal-body').html(data["body"]);
+                $('.modal-footer').html(data["footer"]);
+                $('.datepicker').bootstrapMaterialDatePicker({
+                        time:true,
+                        month:false,
+                        date:false,
+                        format: 'HH:mm',
+                        shortTime:true,
+                     
+                });
+                $(".chzn-select").chosen({width:"100%"});
+                $('#modal-dynamic').modal('show');
+            }
+        }); 
+      
+    });
+
+    //******** UPDATE SCHEDULE END*/
     
 });

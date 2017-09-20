@@ -13,17 +13,17 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <div id="morning-greetings">
+                                <div id="morning-greetings" style="display:hidden;">
                                     <img src="assets/images/morning.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=ucwords($displayUserLevel);?></p>
                                 </div>
-                                <div id="afternoon-greetings">
+                                <div id="afternoon-greetings" style="display:hidden;">
                                     <img src="assets/images/afternoon.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=ucwords($displayUserLevel);?></p>
                                 </div>
-                                <div id="evening-greetings">
+                                <div id="evening-greetings" style="display:hidden;">
                                     <img src="assets/images/evening.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=ucwords($displayUserLevel);?></p>

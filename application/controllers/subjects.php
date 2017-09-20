@@ -40,5 +40,4 @@ class Subjects extends MY_Controller {
 		echo json_encode($isSubjectDeleted);
 	}
 
-	
 }

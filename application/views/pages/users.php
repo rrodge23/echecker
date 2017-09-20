@@ -139,8 +139,8 @@
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
                         <pre>
-                            teacher - code,user,2,firstname, middlename, lastname, position
-                            student - code,user,1,firstname, middlename, lastname, course, year level
+                            student - 1,code,user,firstname, middlename, lastname, course, year level,department
+                            teacher - 2,code,user,firstname, middlename, lastname, position,department
                         </pre>
                     </div>
                     <div class="row">

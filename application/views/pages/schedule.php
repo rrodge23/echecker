@@ -21,7 +21,7 @@
         <?php
             foreach($data as $sched){
                 $id = $sched['idschedule'] ;
-                $code = $sched['code'];
+                $code = $sched['schedule_code'];
                 $day = $sched['day'];
                 $time = $sched['time'];
                 $status = $sched['status'];            

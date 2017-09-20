@@ -1,6 +1,37 @@
 
 <?php
     $dashboard="";$subjects="";$users="";$reports="";$departments="";$imports="";$courses="";$schedules="";
+    $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_imports="";$m_courses="";$m_schedules="";
+    switch($_SESSION['users']['user_level']){
+        case '1':
+            $m_subjects="";
+            $m_users="";
+            $m_reports="";
+            $m_departments="";
+            $m_imports="";
+            $m_courses="";
+            $m_schedules="";
+            break;
+        case '2':
+            $m_subjects="";
+            $m_users="";
+            $m_reports="";
+            $m_departments="";
+            $m_imports="";
+            $m_courses="";
+            $m_schedules="";
+            break;
+        case '99':
+            $m_subjects="1";
+            $m_users="1";
+            $m_reports="1";
+            $m_departments="1";
+            $m_imports="1";
+            $m_courses="1";
+            $m_schedules="1";
+            break;
+    };
+
     switch($currentPath){
         case 'dashboard':
             $dashboard='active';
@@ -41,54 +72,82 @@
             </div>
 
             <ul class="nav">
+                
                 <li class="<?=$dashboard?>">
                     <a href="dashboard">
                         <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="<?=$subjects?>">
-                    <a href="subjects">
-                        <i class="material-icons">subject</i>
-                        <p>Subjects</p>
-                    </a>
-                </li>
-                <li class="<?=$schedules?>">
-                    <a href="schedules">
-                        <i class="material-icons">schedule</i>
-                        <p>Schedules</p>
-                    </a>
-                </li>
-                <li class="<?=$departments?>">
-                    <a href="departments">
-                        <i class="material-icons">view_quilt</i>
-                        <p>Departments</p>
-                    </a>
-                </li>
-                <li class="<?=$courses?>">
-                    <a href="courses">
-                        <i class="material-icons">book</i>
-                        <p>Courses</p>
-                    </a>
-                </li>
-                <li class="<?=$users?>">
-                    <a href="users">
-                        <i class="material-icons">account_box</i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="<?=$reports?>">
-                    <a href="reports">
-                        <i class="material-icons">history</i>
-                        <p>Reports</p>
-                    </a>
-                </li>
-                <li class="<?=$imports?>">
-                    <a href="imports">
-                        <i class="material-icons">file_download</i>
-                        <p>Import Records</p>
-                    </a>
-                </li>
+                <?php
+                 if($m_subjects == '1'){
+                
+                echo '<li class="'.$subjects.'">
+                        <a href="subjects">
+                            <i class="material-icons">subject</i>
+                            <p>Subjects</p>
+                        </a>
+                    </li>';
+
+                    }
+           
+                    if($m_departments == '1'){
+                echo '<li class="'.$schedules.'">
+                            <a href="schedules">
+                                <i class="material-icons">schedule</i>
+                                <p>Schedules</p>
+                            </a>
+                        </li>';
+                    }
+               
+                    
+                    if($m_courses == '1'){
+                        echo '<li class="'.$departments.'">
+                                    <a href="departments">
+                                        <i class="material-icons">view_quilt</i>
+                                        <p>Departments</p>
+                                    </a>
+                                </li>';
+                    }
+                
+              
+                    if($m_users == '1'){
+                     echo '<li class="'.$courses.'">
+                            <a href="courses">
+                                <i class="material-icons">book</i>
+                                <p>Courses</p>
+                            </a>
+                        </li>';
+                    }
+                
+                if($m_users == '1'){
+                    echo '<li class="'.$users.'">
+                                <a href="users">
+                                    <i class="material-icons">account_box</i>
+                                    <p>Users</p>
+                                </a>
+                            </li>';
+                }
+                if($m_reports == '1'){
+                    
+                    echo '<li class="'.$reports.'">
+                                <a href="reports">
+                                    <i class="material-icons">history</i>
+                                    <p>Reports</p>
+                                </a>
+                            </li>';
+                }
+                
+                if($m_imports == '1'){
+                   echo '<li class="'.$imports.'">
+                        <a href="imports">
+                            <i class="material-icons">file_download</i>
+                            <p>Import Records</p>
+                        </a>
+                    </li>';
+                }
+
+                ?>
             </ul>
     	</div>
     </div>
