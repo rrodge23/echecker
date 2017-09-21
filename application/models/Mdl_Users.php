@@ -52,8 +52,10 @@ class Mdl_Users extends CI_Model {
     }
 
     public function getAllStudentsList(){
-        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
-                    ->join('student_informationtbl','student_informationtbl.id = users.idusers')
+        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level','left')
+                    ->join('user_coursetbl','users.idusers = user_coursetbl.iduser_course','left')
+                    ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
+                    ->join('student_informationtbl','student_informationtbl.id = users.idusers','left')
                     ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
                     ->join('departmenttbl','user_departmenttbl.iddepartment = departmenttbl.iddepartment','left')
                     ->where('users.user_level','1')
@@ -117,20 +119,24 @@ class Mdl_Users extends CI_Model {
                             }
                         }
 
-                        if(isset($data['department'])){
-                            $getDepartmentInfo = $this->db->where('department_name',$data['department'])->get('departmenttbl');
+                        if(array_key_exists('department',$data)){
+                            $getDepartmentInfo = $this->db->where('department_name',$data['department'])->limit(1)->get('departmenttbl');
+                            
                             if($departmentData = $getDepartmentInfo->row_array()){
                                 $userDepartment = array('iddepartment' => $departmentData['iddepartment'],'UID' => $last_insert);
                                 $result = $this->db->insert('user_departmenttbl',$userDepartment);
                             }
                             
                         }
-                        print_r($data['course']);
-                        return false;
-                        if(isset($data['course'])){
-                            $getCourseInfo = $this->db->where('course_name',$data['course'])->get('coursetbl');
+                        
+                        if(array_key_exists('course',$data)){
+                            
+                            $getCourseInfo = $this->db->where('course_name',$data['course'])->limit(1)->get('coursetbl');
+                           
                             if($courseData = $getCourseInfo->row_array()){
+                                
                                 $userCourse = array('iduser_course'=>$last_insert, 'idcourse' => $courseData['idcourse']);
+                                
                                 $result = $this->db->insert('user_coursetbl',$userCourse);
                                 
                             }
@@ -174,6 +180,7 @@ class Mdl_Users extends CI_Model {
     public function getUserInfoById($data=false){
         $getQuery = $this->db->where('idusers',$data)
                             ->join('user_coursetbl','users.idusers = user_coursetbl.iduser_course','left')
+                            ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
                             ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
                             ->get('users');
         $userInfo = $getQuery->row_array();
@@ -207,7 +214,7 @@ class Mdl_Users extends CI_Model {
             $this->db->set('code',$data['code'])
                     ->where('idusers',$data['idusers'])
                     ->update('users');
-            if(isset($data['department'])){
+            if(array_key_exists('department',$data)){
                 $isUpdated = $this->db->set('iddepartment',$data['department'])
                     ->where('UID',$data['idusers'])
                     ->update('user_departmenttbl');
@@ -215,14 +222,24 @@ class Mdl_Users extends CI_Model {
                     return false;
                 }
             }
+            
             if($userData['user_level'] == 1){
-                if(isset($data['course'])){
-                    $isUpdated = $this->db->set('idcourse',$data['course'])
-                    ->where('usercourse_id',$data['idusers'])
-                    ->update('user_coursetbl');
-                    if(!($isUpdated)){
-                        return false;
+                
+                if(array_key_exists('course',$data)){
+                    
+                    $courseData = $this->getUserInfoById($data['idusers']);
+                    if($courseData){
+                        $setCourseData = array('iduser_course' => $data['idusers'],'idcourse'=>$courseData['idcourse']);
+                        $isUpdated = $this->db->set('idcourse',$data['course'])
+                        ->where($setCourseData)
+                        ->update('user_coursetbl');
+                        //->get_compiled_update('user_coursetbl');
+           
+                        if(!($isUpdated)){
+                            return false;
+                        }
                     }
+                    
                 }
                 $setStudentInformation = array( 
                                     'firstname'=>$data['firstname'],

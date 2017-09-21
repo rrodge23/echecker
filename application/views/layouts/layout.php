@@ -1,14 +1,13 @@
 
 <?php
-    $dashboard="";$subjects="";$users="";$reports="";$departments="";$imports="";$courses="";$schedules="";
-    $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_imports="";$m_courses="";$m_schedules="";
+    $dashboard="";$subjects="";$users="";$reports="";$departments="";;$courses="";$schedules="";
+    $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_courses="";$m_schedules="";
     switch($_SESSION['users']['user_level']){
         case '1':
             $m_subjects="";
             $m_users="";
             $m_reports="";
             $m_departments="";
-            $m_imports="";
             $m_courses="";
             $m_schedules="";
             break;
@@ -17,7 +16,6 @@
             $m_users="";
             $m_reports="";
             $m_departments="";
-            $m_imports="";
             $m_courses="";
             $m_schedules="";
             break;
@@ -26,7 +24,6 @@
             $m_users="1";
             $m_reports="1";
             $m_departments="1";
-            $m_imports="1";
             $m_courses="1";
             $m_schedules="1";
             break;
@@ -54,9 +51,6 @@
         case 'courses':
             $courses='active';
             break;    
-        case 'imports':
-            $imports='active';
-            break;
         default:
     };
 ?>
@@ -137,16 +131,7 @@
                                 </a>
                             </li>';
                 }
-                
-                if($m_imports == '1'){
-                   echo '<li class="'.$imports.'">
-                        <a href="imports">
-                            <i class="material-icons">file_download</i>
-                            <p>Import Records</p>
-                        </a>
-                    </li>';
-                }
-
+            
                 ?>
             </ul>
     	</div>

@@ -18,41 +18,47 @@ class Users extends MY_Controller {
 	}
 
     public function importUsers(){
-        $this->load->library("Excelfile");
-        $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
-        $isInsertSuccess = false;
-        foreach($object->getWorksheetIterator() as $worksheet){
-            $highestRow = $worksheet->getHighestRow();
-            $highestColumnLetter = $worksheet->getHighestDataColumn();
-            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
-            $header = array('user_level','code','user','firstname','middlename','lastname');
-            for($row=2; $row<=$highestRow; $row++){
-                $colDatas = array();
-                for($col=0;$col<count($header);$col++){ 
-                    $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
-                }
-                if($colDatas['user_level'] == 1){
-                    $colDatas['course'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
-                    $colDatas['year_level'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
-                    $colDatas['department'] = $worksheet->getCellByColumnAndRow(8,$row)->getFormattedValue();
+        if(isset($_POST['userfield'])){
+            $this->load->library("Excelfile");
+            $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
+            $isInsertSuccess = false;
+            foreach($object->getWorksheetIterator() as $worksheet){
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumnLetter = $worksheet->getHighestDataColumn();
+                $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
+                $header = array('code','user','firstname','middlename','lastname');
+                for($row=2; $row<=$highestRow; $row++){
+                    $colDatas = array();
+                    for($col=0;$col<count($header);$col++){ 
+                        $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
+                    }
+                    if($_POST['userfield'] == 1){
+                        $colDatas['course'] = $worksheet->getCellByColumnAndRow(5,$row)->getFormattedValue();
+                        $colDatas['year_level'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                        $colDatas['department'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
 
-                }else if($colDatas['user_level'] == 2){
-                    $colDatas['position'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
-                    $colDatas['department'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
-                }else{
-                    return false;
+                    }else if($_POST['userfield'] == 2){
+                        $colDatas['position'] = $worksheet->getCellByColumnAndRow(5,$row)->getFormattedValue();
+                        $colDatas['department'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                    }else{
+                        return false;
+                    }
+                    $colDatas['pass'] = $colDatas['code'];
+                    $colDatas['user_level'] = $_POST['userfield'];
+                    $this->load->model("mdl_Users");
+                    $result = $this->mdl_Users->insertUsers($colDatas);
+                    if($result){
+                        $isInsertSuccess = true;    
+                    }                    
+                    
                 }
-                $colDatas['pass'] = $colDatas['code'];
-                $this->load->model("mdl_Users");
-                $result = $this->mdl_Users->insertUsers($colDatas);
-                if($result){
-                    $isInsertSuccess = true;    
-                }                    
-                
+                break;
             }
-            break;
+            echo json_encode($isInsertSuccess);
+        }else{
+            echo json_encode(false);
         }
-       echo json_encode($isInsertSuccess);
+        
        
     }
     
@@ -156,6 +162,7 @@ class Users extends MY_Controller {
         $htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
                         <input type="hidden" value="'.$_POST['user_level'].'" name="user_level">
                         <input type="hidden" value="'.$_POST['idusers'].'" name="idusers">';
+       
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($h).'</div></span>
@@ -168,9 +175,14 @@ class Users extends MY_Controller {
       
             $htmlbody .= '<div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
-                            <select name="course" data-placeholder="Choose course" class="chzn-select">';
+                            <select name="course" data-placeholder="Choose course" class="chzn-select" required="required">';
                 foreach($course as $c){
-                    $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                    if($c['idcourse'] == $_POST['idcourse']){
+                        $htmlbody .= '<option selected="selected" value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                    }else{
+                        $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                    }
+                    
                 }
                 $htmlbody .='</select></div>';
         }

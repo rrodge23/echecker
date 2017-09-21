@@ -141,6 +141,11 @@ $(document).ready(function(){
             "   </div>\n" +
             "   {caption}\n" +
             "</div>"
+        },
+        uploadExtraData: function (previewId, index) {
+            var fieldVal = $('#select-user-imports').val();
+            var data = {"userfield": fieldVal};
+            return data;
         }
        
     });
@@ -150,7 +155,7 @@ $(document).ready(function(){
             location.reload();
             
         }else{
-            swal("Error", "Error Delete Record.", "error");
+            swal("Error", "Error add Record.", "error");
             return false;
         }
 
@@ -196,7 +201,9 @@ $(document).ready(function(){
                 $('#mdl-title').html('Add User');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
-                $(".chzn-select").chosen({width:"100%"});
+                $(".chzn-select").chosen({width:"100%",
+                        placeholder_text_single: "Select Options...",
+                         no_results_text: "Oops, nothing found!"});
             }   
         });
 
@@ -214,7 +221,8 @@ $(document).ready(function(){
                 $('#mdl-title').html('Add User');
                 $('.modal-body').html(data["body"]);
                 $('.modal-footer').html(data["footer"]);
-                $(".chzn-select").chosen({width:"100%"});
+                $(".chzn-select").chosen({width:"100%",placeholder_text_single: "Select Project/Initiative...",
+      no_results_text: "Oops, nothing found!"});
             }
         });
 
@@ -1098,7 +1106,8 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                         format: 'HH:mm',
                         shortTime:true,
                 });
-                $(".chzn-select").chosen({width:"100%"});
+                $(".chzn-select").chosen({width:"100%",placeholder_text_single: "Select Options...",
+      no_results_text: "Oops, nothing found!"});
                 $('#modal-dynamic').modal('show');
             }
         });
