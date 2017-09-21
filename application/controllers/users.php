@@ -192,7 +192,11 @@ class Users extends MY_Controller {
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
                         <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  if($d['iddepartment'] == $_POST['iddepartment']){
+
+                    $htmlbody .= '<option selected="selected" value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  }
+                    $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         

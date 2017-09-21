@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <div id="morning-greetings" style="display:hidden;">
+                                <div id="morning-greetings">
                                     <img src="assets/images/morning.png" style="height:150px;width:150px">
                                     <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
                                     <p class="category"><?=ucwords($displayUserLevel);?></p>
@@ -32,19 +32,22 @@
                             <div class="content">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div id="tb-testimonial" class="testimonial testimonial-default-filled">
+                                           
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div id="tb-testimonial" class="testimonial testimonial-default-filled pull-right">
                                             <div class="testimonial-section">
-                                                Denim you probably haven't heard of. Lorem ipsum dolor met consectetur adipisicing sit amet, consectetur adipisicing elit, of them jean shorts sed magna aliqua. Lorem ipsum dolor met.
+                                                No Class Tommorow February 30, 2018!
                                             </div>
                                             <div class="testimonial-desc">
-                                                <img src="https://placeholdit.imgix.net/~text?txtsize=9&txt=100%C3%97100&w=100&h=100" alt="" />
+                                                <img src="assets/img/logo.jpg" alt="" />
                                                 <div class="testimonial-writer">
-                                                    <div class="testimonial-writer-name">Zahed Kamal</div>
-                                                    <div class="testimonial-writer-designation">Front End Developer</div>
-                                                    <a href="#" class="testimonial-writer-company">Touch Base Inc</a>
+                                                    <div class="testimonial-writer-name">School Administrator</div>
+                                                    <div class="testimonial-writer-designation">JMC Admin</div>
+                                                    <a href="#" class="testimonial-writer-company">Jose Maria College</a>
                                                 </div>
                                             </div>
-                                        </div>   
+                                        </div>
                                     </div>
                                 </div>
                             </div>
