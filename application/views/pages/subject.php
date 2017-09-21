@@ -19,10 +19,10 @@
         <?php
             foreach($data as $subj){
                 $id = $subj['idsubject'];
-                $code = $subj['code'];
+                $code = $subj['subject_code'];
                 $description = $subj['description'];
                 $units = $subj['units'];
-                $schedule = $subj['code'];
+                $schedule = $subj['schedule_code'];
                 
             
             echo "

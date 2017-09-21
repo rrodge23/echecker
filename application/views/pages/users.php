@@ -63,7 +63,7 @@
                                                     <td class='text-center'>$position</td>
                                                     <td class='text-center'>$department</td>
                                                     <td class='text-center'>
-                                                        <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                        <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                             <i class='material-icons'>create</i>
                                                         </button>
                                                         <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
@@ -106,7 +106,7 @@
                                             $middlename = $u['middlename'];
                                             $lastname = $u['lastname'];
                                             $department = $u['department_name'];
-                                            $course = $u['course'];
+                                            $course = $u['course_name'];
                                             $user_level = $u['user_level'];
                                             $year_level = $u['year_level'];
                                             if($user_level == '1'){
@@ -119,7 +119,7 @@
                                                         <td class='text-center'>$course</td>
                                                         <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
-                                                            <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
+                                                            <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;'>
                                                                 <i class='material-icons'>create</i>
                                                             </button>
                                                             <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
@@ -139,9 +139,18 @@
                 <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
                         <pre>
-                            teacher - code,user,2,firstname, middlename, lastname, position
-                            student - code,user,1,firstname, middlename, lastname, course, year level
+                            student - code,user,firstname, middlename, lastname, course, year level,department
+                            teacher - code,user,firstname, middlename, lastname, position,department
                         </pre>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">User Level</div></span>
+                            <select name="userfield" data-placeholder="Choose Fields.." class="chzn-select" required="required" id="select-user-imports">
+                                <option value="1">Student<option>
+                                <option value="2">Teacher<option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <label class="control-label"><h3><b>Import File</b></h3></label>

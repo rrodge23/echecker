@@ -14,8 +14,15 @@ class Mdl_schedules extends CI_Model {
     }
 
     public function addschedule($data=false){
+        $data['status'] = 'available';
         
-        $query=$this->db->where('code',$data['code'])
+        $tmpData = "";
+        foreach($data['day'] as $d){
+            $tmpData .= $d . ',';
+        }
+
+        $data['day'] = rtrim($tmpData, ',');
+        $query=$this->db->where('schedule_code',$data['schedule_code'])
                     ->get('subject_scheduletbl');
         if($query->num_rows > 0){
             return array('schedule Already Exist', false);   
@@ -41,7 +48,7 @@ class Mdl_schedules extends CI_Model {
     public function updateschedule($data=false){
       
         $query=$this->db->not_like('idschedule',$data['idschedule'])
-                    ->where('code',$data['code'])
+                    ->where('schedule_code',$data['schedule_code'])
                     ->get('subject_scheduletbl');
          if($getschedule = $query->row_array()){
             return array("schedule Already Exist", false);   

@@ -20,7 +20,7 @@
 </div>
 
 <div id="modal-dynamic-secondary" class="modal fade">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" style="width:100%;">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -38,3 +38,4 @@
     </div>
   </div>
 </div>
+

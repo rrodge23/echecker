@@ -18,40 +18,49 @@ class Users extends MY_Controller {
 	}
 
     public function importUsers(){
-        $this->load->library("Excelfile");
-        $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
-        $isInsertSuccess = false;
-        foreach($object->getWorksheetIterator() as $worksheet){
-            $highestRow = $worksheet->getHighestRow();
-            $highestColumnLetter = $worksheet->getHighestDataColumn();
-            $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
-            $header = array('code','user','user_level','firstname','middlename','lastname');
-            for($row=2; $row<=$highestRow; $row++){
-                $colDatas = array();
-                for($col=0;$col<$highestColumn-2;$col++){ 
-                    $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
-                }
-                if($colDatas['user_level'] == 1){
-                    $colDatas['course'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
-                    $colDatas['year_level'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
+        if(isset($_POST['userfield'])){
+            $this->load->library("Excelfile");
+            $object = PHPExcel_IOFactory::load($_FILES["usersFile"]["tmp_name"]);
+            $isInsertSuccess = false;
+            foreach($object->getWorksheetIterator() as $worksheet){
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumnLetter = $worksheet->getHighestDataColumn();
+                $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnLetter);
+                $header = array('code','user','firstname','middlename','lastname');
+                for($row=2; $row<=$highestRow; $row++){
+                    $colDatas = array();
+                    for($col=0;$col<count($header);$col++){ 
+                        $colDatas[$header[$col]] = $worksheet->getCellByColumnAndRow($col,$row)->getFormattedValue();
+                    }
+                    if($_POST['userfield'] == 1){
+                        $colDatas['course'] = $worksheet->getCellByColumnAndRow(5,$row)->getFormattedValue();
+                        $colDatas['year_level'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                        $colDatas['department'] = $worksheet->getCellByColumnAndRow(7,$row)->getFormattedValue();
 
-                }else if($colDatas['user_level'] == 2){
-                    $colDatas['position'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                    }else if($_POST['userfield'] == 2){
+                        $colDatas['position'] = $worksheet->getCellByColumnAndRow(5,$row)->getFormattedValue();
+                        $colDatas['department'] = $worksheet->getCellByColumnAndRow(6,$row)->getFormattedValue();
+                    }else{
+                        return false;
+                    }
+                    $colDatas['pass'] = $colDatas['code'];
+                    $colDatas['user_level'] = $_POST['userfield'];
+                    $this->load->model("mdl_Users");
+                    $result = $this->mdl_Users->insertUsers($colDatas);
+                    if($result){
+                        $isInsertSuccess = true;    
+                    }                    
+                    
                 }
-                $colDatas['pass'] = $colDatas['code'];
-                $this->load->model("mdl_Users");
-                $result = $this->mdl_Users->insertUsers($colDatas);
-                if($result){
-                    $isInsertSuccess = true;    
-                }                    
-                
+                break;
             }
-            break;
+            echo json_encode($isInsertSuccess);
+        }else{
+            echo json_encode(false);
         }
-       echo json_encode($isInsertSuccess);
+        
        
     }
-
     
     public function deleteUser(){
         $this->load->model('mdl_Users');
@@ -98,9 +107,9 @@ class Users extends MY_Controller {
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;text-align:left;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  $htmlbody .= '<option value="'.$d['department_name'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         
@@ -110,7 +119,7 @@ class Users extends MY_Controller {
     }
 
     public function modalAddStudent(){
-        $header = array("code","user","firstname","middlename","lastname","course","year_level");
+        $header = array("code","user","firstname","middlename","lastname","year_level");
         $htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
@@ -119,12 +128,23 @@ class Users extends MY_Controller {
                         </div>';   
         }
         $this->load->model('mdl_departments');
+        $this->load->model('mdl_courses');
+        
+        $course = $this->mdl_courses->getAllcourses();
+      
+        $htmlbody .= '<div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
+                        <select name="course" data-placeholder="Choose Course" class="chzn-select" required="required">';
+              foreach($course as $c){
+                  $htmlbody .= '<option value="'.$c['course_name'].'">'.$c['course_name'].'</option>';
+              }          
+              $htmlbody .='</select></div>';
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" data-placeholder="Choose Department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  $htmlbody .= '<option value="'.$d['department_name'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         
@@ -135,26 +155,48 @@ class Users extends MY_Controller {
 
     public function modalUpdateUser(){
         if($_POST['user_level'] == 1){
-            $header = array("code","user","firstname","middlename","lastname","course","year_level");
+            $header = array("code","user","firstname","middlename","lastname","year_level");
         }else if($_POST['user_level'] == 2){
             $header = array("code","user","firstname","middlename","lastname","position");
         }
-        
         $htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
+                        <input type="hidden" value="'.$_POST['user_level'].'" name="user_level">
                         <input type="hidden" value="'.$_POST['idusers'].'" name="idusers">';
+       
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
                             <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($h).'</div></span>
                             <input type="text" class="form-control" value="'.$_POST[$h].'" name="'.$h.'" aria-describedby="basic-addon1" required="required">
                         </div>';   
         }
+        if($_POST['user_level'] == 1){
+            $this->load->model('mdl_courses');
+            $course = $this->mdl_courses->getAllcourses();
+      
+            $htmlbody .= '<div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Course</div></span>
+                            <select name="course" data-placeholder="Choose course" class="chzn-select" required="required">';
+                foreach($course as $c){
+                    if($c['idcourse'] == $_POST['idcourse']){
+                        $htmlbody .= '<option selected="selected" value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                    }else{
+                        $htmlbody .= '<option value="'.$c['idcourse'].'">'.$c['course_name'].'</option>';
+                    }
+                    
+                }
+                $htmlbody .='</select></div>';
+        }
         $this->load->model('mdl_departments');
         $department = $this->mdl_departments->getAllDepartments();
         $htmlbody .= '<div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Department</div></span>
-                        <select name="department" class="chosen-select-deselect" tabindex="-1" required="required" style="width:100%;border:none !important;">';
+                        <select name="department" data-placeholder="Choose Department" class="chzn-select" required="required">';
               foreach($department as $d){
-                  $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  if($d['iddepartment'] == $_POST['iddepartment']){
+
+                    $htmlbody .= '<option selected="selected" value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
+                  }
+                    $htmlbody .= '<option value="'.$d['iddepartment'].'">'.$d['department_name'].'</option>';
               }          
               $htmlbody .='</select></div></form>';
         
@@ -162,5 +204,6 @@ class Users extends MY_Controller {
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
         echo json_encode(array('body'=>$htmlbody,'footer'=>$htmlfooter));
     }
+
 
 }

@@ -16,10 +16,29 @@ class Mdl_Users extends CI_Model {
         $usersData = $query->first_row('array');
         if($usersData['user_level'] == "99"){
             $query = $this->db->where('idadmin',$usersData['idusers'])->get('admin_informationtbl');
-            $adminInformation = $query->first_row('array');
+            $result = $query->first_row('array');
+            if(!$result){
+                return false;
+            }
+        }else if($usersData['user_level'] == "1"){
+            $query = $this->db->where('idstudent',$usersData['idusers'])->get('student_informationtbl');
+            $result = $query->first_row('array');
+            if(!$result){
+                return false;
+            }
+        }else if($usersData['user_level'] == "2"){
+            $query = $this->db->where('idteacher',$usersData['idusers'])->get('teacher_informationtbl');
+            $result = $query->first_row('array');
+            if(!$result){
+                return false;
+            }
+        }else{
+            return false;
         }
+
         if($usersData){
-            $result = array($usersData,$adminInformation);
+            
+            $result = array($usersData,$result);
             return $result;
         }
        
@@ -33,9 +52,12 @@ class Mdl_Users extends CI_Model {
     }
 
     public function getAllStudentsList(){
-        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
-                    ->join('student_informationtbl','student_informationtbl.id = users.idusers')
-                    ->join('departmenttbl','student_informationtbl.department = departmenttbl.iddepartment','left')
+        $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level','left')
+                    ->join('user_coursetbl','users.idusers = user_coursetbl.iduser_course','left')
+                    ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
+                    ->join('student_informationtbl','student_informationtbl.id = users.idusers','left')
+                    ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
+                    ->join('departmenttbl','user_departmenttbl.iddepartment = departmenttbl.iddepartment','left')
                     ->where('users.user_level','1')
                     ->get('users');
         return $query->result_array();
@@ -44,7 +66,8 @@ class Mdl_Users extends CI_Model {
     public function getAllProfessorsList(){
         $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level')
                     ->join('teacher_informationtbl','teacher_informationtbl.id = users.idusers')
-                    ->join('departmenttbl','teacher_informationtbl.department = departmenttbl.iddepartment','left')
+                    ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
+                    ->join('departmenttbl','user_departmenttbl.iddepartment = departmenttbl.iddepartment','left')
                     ->where('users.user_level', '2')
                     ->get('users');
         return $query->result_array();
@@ -53,8 +76,8 @@ class Mdl_Users extends CI_Model {
     public function insertUsers($data=array()){
         
         $isDataValid = false;
-        $studentDataIndex = array('firstname','middlename','lastname','course','year_level','department');
-        $teacherDataIndex = array('firstname','middlename','lastname','position','department');
+        $studentDataIndex = array('firstname','middlename','lastname','year_level');
+        $teacherDataIndex = array('firstname','middlename','lastname','position');
         
         if($data['user_level'] == 1 || $data['user_level'] == 2){
             if($data['user'] != "" && $data['pass'] != "" && $data['firstname'] != "" && $data['lastname'] != ""){
@@ -76,20 +99,46 @@ class Mdl_Users extends CI_Model {
                         if($data['user_level'] == 1){
                             $studentInfo['id'] = $last_insert;
                             for($i = 0; $i< count($studentDataIndex); $i++){
-                                $studentInfo[$studentDataIndex[$i]] = $data[$studentDataIndex[$i]];
+                               
+                                    $studentInfo[$studentDataIndex[$i]] = $data[$studentDataIndex[$i]];
+                                
                             }
                             
                             if(!($this->db->insert('student_informationtbl',$studentInfo))){
                                 return false;
                             }
                             
-                        }else{
+                        }else if($data['user_level'] == 2){
                             $teacherInfo['id'] = $last_insert;
                             for($i = 0; $i < count($teacherDataIndex); $i++){
-                                $teacherInfo[$teacherDataIndex[$i]] = $data[$teacherDataIndex[$i]];
+                               
+                                    $teacherInfo[$teacherDataIndex[$i]] = $data[$teacherDataIndex[$i]];
                             }
                             if(!($this->db->insert('teacher_informationtbl',$teacherInfo))){
                                 return false;
+                            }
+                        }
+
+                        if(array_key_exists('department',$data)){
+                            $getDepartmentInfo = $this->db->where('department_name',$data['department'])->limit(1)->get('departmenttbl');
+                            
+                            if($departmentData = $getDepartmentInfo->row_array()){
+                                $userDepartment = array('iddepartment' => $departmentData['iddepartment'],'UID' => $last_insert);
+                                $result = $this->db->insert('user_departmenttbl',$userDepartment);
+                            }
+                            
+                        }
+                        
+                        if(array_key_exists('course',$data)){
+                            
+                            $getCourseInfo = $this->db->where('course_name',$data['course'])->limit(1)->get('coursetbl');
+                           
+                            if($courseData = $getCourseInfo->row_array()){
+                                
+                                $userCourse = array('iduser_course'=>$last_insert, 'idcourse' => $courseData['idcourse']);
+                                
+                                $result = $this->db->insert('user_coursetbl',$userCourse);
+                                
                             }
                         }
                     }
@@ -105,10 +154,23 @@ class Mdl_Users extends CI_Model {
         $userInfo = $getQuery->row_array();
         if($userInfo['user_level'] == 1){
             $deleteQuery = $this->db->where('id',$id)->delete('student_informationtbl');
+            if(!($deleteQuery)){
+                return false;
+            }
+            $deleteQuery = $this->db->where('iduser_course',$id)->delete('user_coursetbl');
+            if(!($deleteQuery)){
+                return false;
+            }
+            
         }
         if($userInfo['user_level'] == 2){
             $deleteQuery = $this->db->where('id',$id)->delete('teacher_informationtbl');
         }
+        $deleteUserDepartment = $this->db->where('UID',$id)->delete('user_departmenttbl');
+        if(!($deleteUserDepartment)){
+            return false;
+        }
+        $deleteUser = $this->db->where('idusers', $id)->delete('users');
         if($deleteQuery){
             return true;
         }
@@ -116,9 +178,14 @@ class Mdl_Users extends CI_Model {
     }
 
     public function getUserInfoById($data=false){
-        $getQuery = $this->db->where('idusers',$data)->get('users');
+        $getQuery = $this->db->where('idusers',$data)
+                            ->join('user_coursetbl','users.idusers = user_coursetbl.iduser_course','left')
+                            ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
+                            ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
+                            ->get('users');
         $userInfo = $getQuery->row_array();
         if($userInfo['user_level'] == 1){
+        
             if(!$userQuery = $this->db->where('id',$userInfo['idusers'])->get('student_informationtbl')){
                 return false;
             }
@@ -141,24 +208,55 @@ class Mdl_Users extends CI_Model {
     }
 
     public function updateUser($data=false){
+        
         if($getQuery = $this->db->where('idusers',$data['idusers'])->get('users')){            
             $userData = $getQuery->row_array();
+            $this->db->set('code',$data['code'])
+                    ->where('idusers',$data['idusers'])
+                    ->update('users');
+            if(array_key_exists('department',$data)){
+                $isUpdated = $this->db->set('iddepartment',$data['department'])
+                    ->where('UID',$data['idusers'])
+                    ->update('user_departmenttbl');
+                if(!($isUpdated)){
+                    return false;
+                }
+            }
+            
             if($userData['user_level'] == 1){
-                $setStudentInformation = array('firstname'=>$data['firstname'],
+                
+                if(array_key_exists('course',$data)){
+                    
+                    $courseData = $this->getUserInfoById($data['idusers']);
+                    if($courseData){
+                        $setCourseData = array('iduser_course' => $data['idusers'],'idcourse'=>$courseData['idcourse']);
+                        $isUpdated = $this->db->set('idcourse',$data['course'])
+                        ->where($setCourseData)
+                        ->update('user_coursetbl');
+                        //->get_compiled_update('user_coursetbl');
+           
+                        if(!($isUpdated)){
+                            return false;
+                        }
+                    }
+                    
+                }
+                $setStudentInformation = array( 
+                                    'firstname'=>$data['firstname'],
                                     'middlename' => $data['middlename'],
                                     'lastname' => $data['lastname'],
-                                    'course' => $data['course'],
-                                    'year_level' => $data['year_level'],
+                                    'year_level' => $data['year_level']
                             );
                 $isUpdated = $this->db->set($setStudentInformation)->where('id',$data['idusers'])->update('student_informationtbl');
             }else if($userData['user_level'] == 2){
                 $setTeacherInformation = array('firstname'=>$data['firstname'],
                                     'middlename' => $data['middlename'],
                                     'lastname' => $data['lastname'],
-                                    'position' => $data['position']
+                                    'position' => $data['position'],
                             );
                 $isUpdated = $this->db->set($setTeacherInformation)->where('id',$data['idusers'])->update('teacher_informationtbl');
             }
+
             if($isUpdated){
                 return true;
             }else{

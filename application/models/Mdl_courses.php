@@ -56,7 +56,11 @@ class Mdl_courses extends CI_Model {
     }
     
     public function deletecourse($data=false){
-      
+        $queryResult = $this->db->where('idcourse',$data)->delete('user_coursetbl');
+        if(!($queryResult)){
+            return array("Error in Record Deletion", false);   
+        }
+
         $query=$this->db->where('idcourse',$data)
                     ->delete('coursetbl');
         if($query){

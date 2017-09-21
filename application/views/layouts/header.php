@@ -22,10 +22,13 @@
     <link href= "assets/css/dataTables.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/sweetalert.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/fileinput.min.css" rel="stylesheet" type="text/css"/> 
-    <link href= "assets/css/fileinput-rtl.min.css" rel="stylesheet" type="text/css"/> 
-    <link href= "assets/css/default.css" rel="stylesheet" type="text/css"/>
+    <!--<link href= "assets/css/fileinput-rtl.min.css" rel="stylesheet" type="text/css"/> -->
     <link href= "assets/css/fonts.css" rel="stylesheet" type="text/css"/> 
+    <link href= "assets/css/default.css" rel="stylesheet" type="text/css"/>
+    <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
     
+
     
 </head>
 <body>
