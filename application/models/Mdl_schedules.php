@@ -15,7 +15,9 @@ class Mdl_schedules extends CI_Model {
 
     public function addschedule($data=false){
         $data['status'] = 'available';
-        
+        if((int)$data['time_start'] >= (int)$data['time_end']){
+            return array("Time Start Should be earlier than Time End.", false);
+        }
         $tmpData = "";
         foreach($data['day'] as $d){
             $tmpData .= $d . ',';
@@ -46,7 +48,16 @@ class Mdl_schedules extends CI_Model {
     }
 
     public function updateschedule($data=false){
-      
+     
+        if((int)$data['time_start'] >= (int)$data['time_end']){
+            return array("Time Start Should be earlier than Time End.", false);
+        }
+        $tmpData = "";
+        foreach($data['day'] as $d){
+            $tmpData .= $d . ',';
+        }
+        $data['day'] = rtrim($tmpData, ',');
+
         $query=$this->db->not_like('idschedule',$data['idschedule'])
                     ->where('schedule_code',$data['schedule_code'])
                     ->get('subject_scheduletbl');
@@ -63,7 +74,11 @@ class Mdl_schedules extends CI_Model {
     }
     
     public function deleteschedule($data=false){
-      
+        $isScheduleNotAvailable = $this->db->where('idschedule',$data)->limit(1)->get('subject_scheduletbl');
+        $getIsScheduleAvailable = $isScheduleNotAvailable->row_array();
+        if($getIsScheduleAvailable['status'] != 'available'){
+            return array("Cannot Delete Unavailable Schedule", false);
+        }
         $query=$this->db->where('idschedule',$data)
                     ->delete('subject_scheduletbl');
         if($query){
