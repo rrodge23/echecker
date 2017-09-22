@@ -21,6 +21,8 @@
     <link href= "assets/css/datepicker.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/dataTables.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/sweetalert.css" rel="stylesheet" type="text/css"/>
+    
+    <link href= "assets/css/bootstrap-duallistbox.min.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/fileinput.min.css" rel="stylesheet" type="text/css"/> 
     <!--<link href= "assets/css/fileinput-rtl.min.css" rel="stylesheet" type="text/css"/> -->
     <link href= "assets/css/fonts.css" rel="stylesheet" type="text/css"/> 

@@ -62,11 +62,15 @@ class Schedules extends MY_Controller {
         }               
         $htmlbody .=' </select>
                     </div>';
-        $htmlbody .= '<div class="input-group">
-                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Time</div></span>
-                       <input type="text" class="form-control datepicker" name="time" aria-describedby="basic-addon1" required="required">
+        $timeHeader = array('time_start','time_end');
+        foreach($timeHeader as $t){
+            $htmlbody .= '<div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'.$t.'</div></span>
+                       <input type="text" class="form-control datepicker" name="'.$t.'" aria-describedby="basic-addon1" required="required">
                     </div>
-                    </form>';
+                    ';
+        }
+        $htmlbody .= '</form>';
         $footer = '<button type="submit" form="mdl-frm-add-schedule" class="btn btn-primary btn-post-add-schedule"><i class="material-icons">playlist_add_check</i></button>
                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
         echo json_encode(array('body'=>$htmlbody, 'footer'=>$footer));
@@ -77,7 +81,8 @@ class Schedules extends MY_Controller {
 		$scheduleData = $this->mdl_schedules->getscheduleInfoById($_POST);
         
         $header = array("schedule_code");
-        $htmlbody = '<form action="schedules/updateschedule" method="post" onsubmit="return false;" id="mdl-frm-update-schedule">';
+        $htmlbody = '<form action="schedules/updateschedule" method="post" onsubmit="return false;" id="mdl-frm-update-schedule">'
+                    . '<input type="hidden" value="'.$scheduleData[0]['idschedule'].'" name="idschedule">';
         foreach($header as $h){
             $htmlbody .= '<div class="input-group">
                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">' . ucwords($h) . '</div></span>
@@ -87,7 +92,7 @@ class Schedules extends MY_Controller {
         
         $htmlbody .= '<div class="input-group">
                        <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Day</div></span>
-                       <select name="day[]"  style="width:350px;" multiple class="chzn-select">';
+                       <select name="day[]" style="width:350px;" multiple class="chzn-select" required="required">';
         $dayList = array("","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday");
         $getDayList = explode(',',$scheduleData[0]['day']);
         foreach($dayList as $d){
@@ -100,11 +105,15 @@ class Schedules extends MY_Controller {
         }               
         $htmlbody .=' </select>
                     </div>';
-        $htmlbody .= '<div class="input-group">
-                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Time</div></span>
-                       <input type="text" value="'.$scheduleData[0]['time'].'" class="form-control datepicker" name="time" aria-describedby="basic-addon1" required="required">
-                    </div>
-                    </form>';
+        $timeHeader = array('time_start','time_end');
+        foreach($timeHeader as $t){
+            $htmlbody .= '<div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'.$t.'</div></span>
+                       <input type="text" value="'.$scheduleData[0][$t].'" class="form-control datepicker" name="'.$t.'" aria-describedby="basic-addon1" required="required">
+                    </div>';
+        }
+        
+            $htmlbody .= '</form>';
         $footer = '<button type="submit" form="mdl-frm-update-schedule" class="btn btn-primary btn-post-update-schedule"><i class="material-icons">playlist_add_check</i></button>
                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
         echo json_encode(array('body'=>$htmlbody, 'footer'=>$footer));

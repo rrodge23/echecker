@@ -91,9 +91,13 @@ $(document).ready(function(){
     //******** ETC */
     
         tinymce.init({
-        selector: '#mytextarea'
+             selector: '#mytextarea'
+        });
+    var demo1 = $('#dualList').bootstrapDualListbox({
+        nonSelectedListLabel: 'Non-selected',
+        selectedListLabel: 'Selected',
     });
-    
+   
     //********* DATA TABLES
     $('#table-professorslist').DataTable();
     $('#table-courselist').DataTable();
@@ -117,11 +121,48 @@ $(document).ready(function(){
 
     //********* USERLIST
     
-    $('#btn-import-user').on('submit',function(){
-        
-    });
+   
     
     //********* USERLIST END
+
+    //********* BULLETIN
+    $(document).on('click','#btn-update-bulletin',function(){
+      
+        $('#mdl-title').html('Update Message');
+        var htmlbody = '<form action="pages/postMessage" method="post" onsubmit="return false;" id="mdl-frm-post-message">'
+                        +'<div class="input-group">'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Message</div></span>'
+                        +'   <field type="text" class="form-control mytextarea" aria-describedby="basic-addon1" id="" required="required"></field>'
+                        +'</div></form>';
+        $('.modal-body').html(htmlbody);
+        var footer = '<button type="submit" form="mdl-frm-post-message" class="btn btn-primary btn-post-message"><i class="material-icons">playlist_add_check</i></button>'
+                    +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
+        $('.modal-footer').html(footer);
+        tinymce.init({
+             selector: '.mytextarea'
+        });
+        $('#modal-dynamic').modal('show');
+    });
+
+    $(document).on('submit','#mdl-frm-post-message',function(){
+        var frm = $(this);
+        var data = frm.serialize();
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        $.ajax({
+            url:url,
+            method:method,
+            data:data,
+            dataType:"json",
+            success:function(data){
+                if(data == true){
+                    swal("Success", "Successfully Changed !.", "success");
+                    location.reload();
+                }
+            }
+        });
+    });
+    //********* BULETIN END
 
     //********* FILEINPUT
     $("#input-import-users").fileinput({
@@ -149,6 +190,8 @@ $(document).ready(function(){
         }
        
     });
+
+    
     $(document).on("fileuploaded","#input-import-users",function(event,data,previewId,index){
         if(data.response){
             swal("Success", "Successfully Recorded.", "success");
@@ -161,6 +204,7 @@ $(document).ready(function(){
 
     });
     
+
     $("#input-import-field").fileinput({
        
         uploadUrl: "imports/importfield",
@@ -413,7 +457,8 @@ $(document).ready(function(){
                           +'<td class="text-center font-roboto color-a2">ID</td>'
                           +'<td class="text-center font-roboto color-a2">CODE</td>'
                           +'<td class="text-center font-roboto color-a2">DAY</td>'
-                          +'<td class="text-center font-roboto color-a2">TIME</td>'
+                          +'<td class="text-center font-roboto color-a2">TIME START</td>'
+                          +'<td class="text-center font-roboto color-a2">TIME END</td>'
                           +'<td class="text-center font-roboto color-a2">ACTION</td>'
                           +'</tr>'
                           +'</thead>'
@@ -422,14 +467,17 @@ $(document).ready(function(){
                     var id = inputs['idschedule'];
                     var code = inputs['schedule_code'];
                     var day = inputs['day'];
-                    var time = inputs['time'];
+                    var time_start = inputs['time_start'];
+                    var time_end = inputs['time_end'];
                     var status = inputs['status'];
+
                     if(status == "available"){
                         htmlbody += "<tr>"
                             +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
-                            +"<td class='text-center font-roboto color-a2'>"+time+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+time_start+"</td>"
+                            +"<td class='text-center font-roboto color-a2'>"+time_end+"</td>"
                             +"<td class='text-center font-roboto color-a2' style='text-align:center;'>"
                             +"<button data-id='"+id+"' data-code='"+code+"' rel='tooltip' data-original-title='Select' class='pull-right mdl-btn-add-schedule btn btn-success' type='button' name='create'>"
                             +"<i class='material-icons'>add</i>"
@@ -558,7 +606,6 @@ $(document).ready(function(){
             method:"POST",
             data:{id:id},
             success:function(data){
-
                 if(data[1] == true){
                     $('#mdl-title').html('Update Subject');
                     var inputList = ["subject_code","description","units"];
@@ -1233,5 +1280,49 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
     });
 
     //******** UPDATE SCHEDULE END*/
+    //******** POST UPDATE SCHEDULE*/
+    $(document).on('submit','#mdl-frm-update-schedule',function(e){
+        e.preventDefault();
+        var frm = $(this);
+        var id = frm.data('id');
+        var method = frm.attr('method');
+        var url = frm.attr('action');
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to update this record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+            },
+            function(isConfirm){
+            if (isConfirm) {
+                $.ajax({
+                    url:url,
+                    data:frm.serialize(),
+                    method:method,
+                    dataType:"json",
+                    success:function(data){
+                        if(data[1] == true){
+                            swal("success", "Record Updated.", "success");   
+                            location.reload();
+                        }else{
+                            swal("cancelled", data[0], "error");
+                        }
+                    }
+                });
+            } else {
+                swal("Cancelled", "Update Canceled.", "error");
+            }
+        });
+        
+    });
+    //******** POST UPDATE SCHEDULE END*/
+
+
+
     
 });
